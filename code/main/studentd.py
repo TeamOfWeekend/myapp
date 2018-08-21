@@ -11,6 +11,6 @@
 import time
 
 def run_student():
-    print("Process colleged start...")
+    print("Process studentd start...")
     time.sleep(15)
-    print("Process colleged stop...")
+    print("Process studentd stop...")

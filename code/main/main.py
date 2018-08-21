@@ -8,7 +8,8 @@
 @Time    : 2018/8/20 21:54
 """
 
-from queue import Queue
+import multiprocessing
+
 from vv_lib.vv_process.vprocess import VProcess
 from vv_lib.vv_queue.vqueue import VQueue
 
@@ -23,9 +24,10 @@ queue_def = ((1, 'send queue', 20),
               (2, 'recv queue', 20))
 
 if __name__ == "__main__":
+    ctx = multiprocessing.get_context('spawn')
     queue_list = []
     for q in queue_def:
-        queue_list.append(VQueue(q[0], q[1], q[2]))
+        queue_list.append(VQueue(q[0], q[1], q[2], ctx))
     # run_college()
     process_list = []
     for p in process_def:

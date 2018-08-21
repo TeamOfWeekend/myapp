@@ -8,19 +8,18 @@
 @Time    : 2018/8/20 20:55
 """
 
-from multiprocessing import Queue
+from multiprocessing import queues
 
 
-class VQueue(Queue):
+class VQueue(queues.Queue):
     """添加类说明"""
-
-    def __init__(self, qid, name, size):
+    def __init__(self, qid, name, size, ctx):
         """Set the initial state of self, which includes the contents of
         sourceCollection, if it's present
         name : 进程名
         func : 进程代码入口
         queue : 进程通信队列"""
-        super(VQueue, self).__init__(maxsize=size)
+        super().__init__(maxsize=size, ctx=ctx)
         if not isinstance(qid, int):
             raise TypeError('Process id must be int type')
         if not isinstance(name, str):
@@ -33,4 +32,3 @@ class VQueue(Queue):
         return self.name
 
 
-v = VQueue(1,2,3)
