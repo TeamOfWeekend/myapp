@@ -9,15 +9,17 @@
 """
 
 import time
+import threading
 
+from myprocess.college.mythreads import threads
 
-def run_college(myprocess):
-    print("Process colleged start...")
-    queue = myprocess.queues.queues[0]
-    queue.put(1)
-    queue.put(2)
-    queue.put(3)
-    time.sleep(10)
-    while not queue.empty():
-        print(queue.get())
-    print("Process colleged stop...")
+def run_college():
+    print("Process college start...")
+
+    for t in threads:
+        t.start()
+
+    for t in threads:
+        t.join()
+
+    print("Process college stop...")
