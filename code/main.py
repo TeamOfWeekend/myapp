@@ -14,7 +14,7 @@ from vv_lib.vv_process.vprocess import VProcess
 from myprocess.college.main import run_college
 from myprocess.student.main import run_student
 
-from myconfig.queues import queues
+from common.myglobal import MyGlobal
 
 # 进程编号、名称、入口函数
 process_def = ((1, 'college process', run_college),
@@ -23,9 +23,10 @@ process_def = ((1, 'college process', run_college),
 
 if __name__ == "__main__":
     process_list = []
+    my_global = MyGlobal()
 
     for p in process_def:
-        process_list.append(VProcess(p[0], p[1], p[2]))
+        process_list.append(VProcess(p[0], p[1], p[2], my_global))
 
     for p in process_list:
         p.start()

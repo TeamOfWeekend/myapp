@@ -8,11 +8,30 @@
 @Time    : 2018/8/22 22:16
 """
 
+from enum import Enum, unique
+
 MSG_TYPE = ()
 
 
+@unique
+class ModuleId(Enum):
+    ModuleId_College = 1
+    ModuleId_Student = 2
 
 
+@unique
+class IpcType(Enum):
+    IPC_Type_College = 1
+    IPC_Type_Student = 2
+
+
+@unique
+class Opcode(Enum):
+    IPC_Opcode_Add = 1
+    IPC_Opcode_Del = 2
+    IPC_Opcode_Update = 3
+    IPC_Opcode_Get = 4
+    IPC_Opcode_Getbulk = 5
 
 
 class IpcMsg:
