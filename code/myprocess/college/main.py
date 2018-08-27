@@ -7,14 +7,20 @@
 @Software: PyCharm Community Edition
 @Time    : 2018/8/20 21:38
 """
-
-import time
 import threading
+from myprocess.college.mythreads import thread_info, lock_info
 
-from myprocess.college.mythreads import threads
 
-def run_college():
+def run_college(my_global):
     print("Process college start...")
+
+    gLocks = []
+    for lock in lock_info:
+        gLocks.append(threading.Lock())
+
+    threads = []
+    for t in thread_info:
+        threads.append(threading.Thread(target=t[2], args=(my_global, gLocks, )))
 
     for t in threads:
         t.start()

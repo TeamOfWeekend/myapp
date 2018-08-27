@@ -14,21 +14,17 @@ import threading
 # 线程2：college数据更新
 # 线程3：与本工程中其他进程通信
 
-from myprocess.college.socket_io import thread_socket_receive
-from myprocess.college.data_update import thread_data_update
-from myprocess.college.ipc_io import thread_ipc_receive
+from myprocess.college.td_socket import thread_socket_receive
+from myprocess.college.td_dataRenew import thread_data_update
+from myprocess.college.td_ipc import thread_ipc_receive
 
 thread_info = ((1, 'socket with django', thread_socket_receive),
               (2, 'college data update', thread_data_update),
               (3, 'ipc with other process', thread_ipc_receive))
 
 
-lock_data = threading.Lock()
+lock_info = ((1, 'data lock'),)
 
-
-threads = []
-for t in thread_info:
-    threads.append(threading.Thread(target=t[2]))
 
 
 
