@@ -27,8 +27,8 @@ class VQueue(queues.Queue):
         self.qid = qid
         self.name = name
 
-    def __str__(self):
-        """返回进程名字"""
-        return self.name
+    # def __str__(self):
+    #     """返回进程名字"""
+    #     return self.name
 
 

@@ -11,8 +11,9 @@
 
 import random
 
-from .imTypes import CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX
-from .imClass import ImClass
+from vv_lib.vv_college.types import CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX
+from vv_lib.vv_college.cclass import ImClass
+
 
 class ImGrade:
     """年级类"""

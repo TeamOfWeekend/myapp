@@ -9,8 +9,8 @@
 """
 
 import random
-from .imTypes import AcademyEnum
-from .imAcademy import ImAcademy
+from vv_lib.vv_college.types import AcademyEnum
+from vv_lib.vv_college.academy import ImAcademy
 
 
 class ImCollege():

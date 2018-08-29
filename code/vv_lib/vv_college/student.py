@@ -13,8 +13,7 @@ from pypinyin import pinyin, NORMAL
 
 from enum import Enum, unique
 
-from .vvlib import baijiaxing, person, enumTypes
-
+from vv_lib.vv_person import baijiaxing, person, enumTypes
 
 
 @unique

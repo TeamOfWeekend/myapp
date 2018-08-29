@@ -11,7 +11,7 @@
 import time
 
 
-def thread_ipc_receive(my_global, gLocks):
+def thread_ipc_receive(my_global):
     print('Thread college ipc receive start..')
 
     while True:

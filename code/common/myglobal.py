@@ -49,4 +49,5 @@ class MyQueues():
 class MyGlobal():
     def __init__(self):
         self.queues = MyQueues()
+        self.paras = {}
 

@@ -8,12 +8,19 @@
 @Time    : 2018/8/23 21:35
 """
 
-import time
-import socket
-import platform
+import socket, platform
+
+from vv_lib.vv_ipc_msg.ipc_msg import TLV, TLV_TAG, ModuleId, IPC_Type, IPC_Opcode, IpcMsg
 
 
-def thread_socket_receive(my_global, gLocks):
+def get_college(colleges, college_name):
+    for college in colleges:
+        if college_name == college.name:
+            return college
+    return None
+
+
+def thread_socket_receive(my_global):
     print('Thread college socket receive start..')
     ossys = platform.system()
 
@@ -31,10 +38,39 @@ def thread_socket_receive(my_global, gLocks):
     server.listen(5)
     while True:
         connect, addr = server.accept()
-        print('address: %s' % addr)
-        server.send('欢迎访问college')
-        server.close()
+        print('address: ')
+        print(addr)
+        college_name = connect.recv(1024).decode()
+        print(college_name)
+        college = get_college(my_global.paras['gColleges'], college_name)
+        print(college)
+        connect.sendall(bytes(college))
+        # json_str = json.dumps(college)
+        # connect.sendall(json_str)
+        connect.shutdown(socket.SHUT_RDWR)
+        connect.close()
 
-    time.sleep(2)
+    server.close()
+
+    # time.sleep(2)
     print('Thread college socket receive stop..')
+
+
+
+def handle_ipc_msg(data):
+    """
+    处理ipc 消息
+    :param data: 接收的数据
+    :return:
+    """
+    pass
+
+
+def handle_ipc_msg_college(college):
+    """
+    拼接college ipc 消息
+    :param college:
+    :return:
+    """
+    pass
 

@@ -9,6 +9,11 @@
 """
 import threading
 from myprocess.college.mythreads import thread_info, lock_info
+from vv_lib.vv_college.college import ImCollege
+from vv_lib.vv_college.types import CollegeEnum
+
+
+gColleges = []
 
 
 def run_college(my_global):
@@ -18,9 +23,21 @@ def run_college(my_global):
     for lock in lock_info:
         gLocks.append(threading.Lock())
 
+    global gColleges
+    for collegeE in CollegeEnum:
+        college = ImCollege()
+        college.name = collegeE.name
+        college.id = collegeE.value
+        college.createRandomAttrs()
+        print("%s %d" % (college.name, college.getStudentNum()))
+        gColleges.append(college)
+
+    my_global.paras['gLocks'] = gLocks
+    my_global.paras['gColleges'] = gColleges
+
     threads = []
     for t in thread_info:
-        threads.append(threading.Thread(target=t[2], args=(my_global, gLocks, )))
+        threads.append(threading.Thread(target=t[2], args=(my_global, )))
 
     for t in threads:
         t.start()

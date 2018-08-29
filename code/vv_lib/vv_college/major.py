@@ -9,7 +9,7 @@
 """
 
 
-from .imGrade import ImGrade
+from vv_lib.vv_college.grade import ImGrade
 
 class ImMajor():
     """专业"""

@@ -9,8 +9,8 @@
 """
 
 import random
-from .imStudent import ImStudent
-from .imTypes import STUDENTS_IN_CLASS_MAX, STUDENTS_IN_CLASS_MIN
+from vv_lib.vv_college.student import ImStudent
+from vv_lib.vv_college.types import STUDENTS_IN_CLASS_MAX, STUDENTS_IN_CLASS_MIN
 
 class ImClass():
     """大学班级"""
