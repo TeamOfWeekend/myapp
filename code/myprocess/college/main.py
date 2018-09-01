@@ -8,12 +8,12 @@
 @Time    : 2018/8/20 21:38
 """
 import threading
-from myprocess.college.mythreads import thread_info, lock_info
+
 from vv_lib.vv_college.college import ImCollege
 from vv_lib.vv_college.types import CollegeEnum
 
-
-gColleges = []
+from myprocess.college.mythreads import thread_info, lock_info
+from myprocess.college.data_api import gColleges
 
 
 def run_college(my_global):
@@ -23,7 +23,6 @@ def run_college(my_global):
     for lock in lock_info:
         gLocks.append(threading.Lock())
 
-    global gColleges
     for collegeE in CollegeEnum:
         college = ImCollege()
         college.name = collegeE.name

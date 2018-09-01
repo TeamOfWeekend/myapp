@@ -18,12 +18,8 @@ def handle_ipc_msg(server, data, colleges):
     :param data: 接收的数据
     :return:
     """
-    # print(eval(data.decode()))
-    # server.sendall(repr({'college_name' : '北京大学',
-    #                      'college_area': 100}).encode())
-
     ipc_msg = IpcMsg()
-    ipc_msg.fill_all(data)
+    ipc_msg.fill_all(eval(data.decode()))
 
     if MSG_Type.College == ipc_msg.msg_type:
         handle_ipc_msg_college(server, colleges, ipc_msg)
@@ -52,8 +48,12 @@ def handle_ipc_msg_college(server, colleges, ipc_msg):
     :param colleges:
     :return:
     """
-    college_name = ipc_msg.data['college_name']
-    return get_college(colleges, college_name)
+    if IPC_Opcode.Get == ipc_msg.opcode:
+        college_name = ipc_msg.data['college_name']
+        college = get_college(colleges, college_name)
+        data = {'name': college.name,
+                'area': college.area}
+        send_ipc_reply(server, ipc_msg, data)
 
 
 def handle_ipc_msg_academy(server, colleges, ipc_msg):
@@ -107,3 +107,21 @@ def handle_ipc_msg_student(server, colleges, ipc_msg):
     :return:
     """
     pass
+
+
+def send_ipc_reply(server, ipc_msg_rev, data):
+    """
+    发送ipc应答消息
+    :param server: socket server or connect
+    :param ipc_msg_rev:  接收的ipc消息
+    :param data: 要发送的数据
+    :return:
+    """
+    ipc_msg_send = IpcMsg()
+    ipc_msg_send.module_id = ipc_msg_rev.sender_id
+    ipc_msg_send.sender_id = ipc_msg_rev.module_id
+    ipc_msg_send.msg_type = ipc_msg_rev.msg_type
+    ipc_msg_send.msg_subtype = ipc_msg_rev.msg_subtype
+    ipc_msg_send.opcode = IPC_Opcode.Reply
+    ipc_msg_send.data = data
+    server.sendall(repr(ipc_msg_send.to_list()).decode())

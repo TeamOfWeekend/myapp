@@ -34,7 +34,7 @@ class Person:
 
         # 名字、身份证号、年龄、性别、身高、体重
         self._name = name
-        self._idCardNum = 0
+        self._id_number = 0
         self._sex = sex
         self._age = age
         self._height = 0
@@ -53,14 +53,12 @@ class Person:
         msg = ''
         msg += ("%-10s : %s\n" % ('name', self._name))
         msg += ("%-10s : %s\n" % ('age', str(self._age)))
-        msg += ("%-10s : %s\n" % ('sex', self._sex.name))
+        msg += ("%-10s : %s\n" % ('sex', self._sex))
         return msg
-
 
     @property
     def name(self):
         return self._name
-
 
     @name.setter
     def name(self, name):
@@ -69,14 +67,14 @@ class Person:
         self._name = name
 
     @property
-    def idCardNum(self):
-        return self._idCardNum
+    def id_number(self):
+        return self._id_number
 
-    @idCardNum.setter
-    def idCardNum(self, cardNum):
-        if not isinstance(cardNum, str):
+    @id_number.setter
+    def id_number(self, id_number):
+        if not isinstance(id_number, str):
             raise ValueError('人的身份证号必须是数字')
-        self._idCardNum = cardNum
+        self._id_number = id_number
 
     @property
     def sex(self):

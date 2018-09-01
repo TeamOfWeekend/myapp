@@ -10,14 +10,8 @@
 
 import socket, platform
 
-from vv_lib.vv_ipc_msg.ipc_msg import MSG_Type, IPC_Opcode, IpcMsg
-
-
-def get_college(colleges, college_name):
-    for college in colleges:
-        if college_name == college.name:
-            return college
-    return None
+from vv_lib.vv_ipc_msg.ipc_msg import IpcMsg
+from myprocess.college.ipc_api import handle_ipc_msg
 
 
 def thread_socket_receive(my_global):
@@ -38,10 +32,9 @@ def thread_socket_receive(my_global):
     server.listen(5)
     while True:
         connect, addr = server.accept()
-        print('address: ')
-        print(addr)
+        print('address: ', addr)
         data = connect.recv(1024)
-        handle_ipc_msg(connect, eval(data.decode()), my_global.paras['gColleges'])
+        handle_ipc_msg(connect, data, my_global.paras['gColleges'])
         # college_name = connect.recv(1024).decode()
         # print(college_name)
         # college = get_college(my_global.paras['gColleges'], college_name)

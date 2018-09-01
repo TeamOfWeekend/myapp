@@ -22,6 +22,16 @@ class CollegeEnum(Enum):
 
 
 @unique
+class CollegeLevel(Enum):
+    """学校级别"""
+    双一流 = 1
+    普通一本 = 2
+    二本 = 3
+    三本 = 4
+    专科 = 5
+
+
+@unique
 class AcademyEnum(Enum):
     计算机学院 = 1
     信息工程学院 = 2

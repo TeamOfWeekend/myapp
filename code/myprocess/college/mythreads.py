@@ -23,7 +23,8 @@ thread_info = ((1, 'socket with django', thread_socket_receive),
               (3, 'ipc with other process', thread_ipc_receive))
 
 
-lock_info = ((1, 'data lock'),)
+# 锁1：学校信息数据锁
+lock_info = ((1, 'college data lock'),)
 
 
 
