@@ -10,20 +10,17 @@
 
 import random
 from vv_lib.vv_college.student import ImStudent
+from vv_lib.vv_college.grade import ImGrade
 from vv_lib.vv_college.types import STUDENTS_IN_CLASS_MAX, STUDENTS_IN_CLASS_MIN
+
 
 class ImClass():
     """大学班级"""
-    def __init__(self, grade, id):
-        # 编号
-        self.id = id
-        # 学生数量
-        self.studentNum = 0
-        # 学生
-        self.students = []
-        # 所属年级
-        self.grade = grade
-
+    def __init__(self):
+        self._id = id            # 编号
+        self._student_num = 0    # 学生数量
+        self._students = {}      # 学生
+        self._grade = None       # 所属年级
 
     def createRandomAttrs(self):
         """生成随机属性"""
@@ -31,7 +28,7 @@ class ImClass():
         for i in range(0, self.studentNum):
             stu = ImStudent(self)
             stu.createRandomAttrs()
-            self.students.append(stu)
+            self.add_student(stu)
         self.sortStudentsIdByNamePinYin()
 
 
@@ -56,7 +53,46 @@ class ImClass():
             self.students[i].id = i + 1
             self.students[i].createId()
 
+    def add_student(self, student):
+        if not isinstance(student, ImStudent):
+            raise TypeError('student')
+        self._student_num += 1
+        student.id = self.student_num
+        self.students[student.id] = student
 
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, val):
+        if not isinstance(val, int):
+            raise TypeError('val')
+        self._id = val
+
+    @property
+    def student_num(self):
+        return self._student_num
+
+    @property
+    def students(self):
+        return self._students
+
+    @students.setter
+    def students(self, students):
+        if not isinstance(students, dict):
+            raise TypeError('students')
+        self._students = students
+
+    @property
+    def grade(self):
+        return self._grade
+
+    @grade.setter
+    def grade(self, grade):
+        if not isinstance(grade, ImGrade):
+            raise TypeError('grade')
+        self._grade = grade
 
 
 

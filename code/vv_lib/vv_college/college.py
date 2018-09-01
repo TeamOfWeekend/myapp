@@ -11,6 +11,7 @@
 # import random
 from vv_lib.vv_college.types import AcademyEnum, CollegeLevel
 from vv_lib.vv_college.academy import ImAcademy
+from vv_lib.vv_college.teacher import ImTeacher
 
 
 class ImCollege():
@@ -29,7 +30,7 @@ class ImCollege():
         self._student_num = 0       # 学生数量
         self._teacher_num = 0       # 教师数量
         self._academy_names = []    # 学院名称列表
-        self._academy_dict = {}     # 学院信息字典，key为学院名，value为学院对象
+        self._academies = {}        # 学院信息字典，key为学院名，value为学院对象
 
     def to_dict(self):
         """
@@ -47,15 +48,33 @@ class ImCollege():
         attrs_dict['academy_names'] = self.academy_names
         return attrs_dict
 
-    def fill_attrs(self, attrs):
+    def add_academy(self, academy):
         """
-        向ImCollege实例中添加属性，attrs是字典
-        :param attrs:  包含属性的字典
+        增加一个学院
+        :param academy: ImAcademy实例对象
         :return:
         """
-        if not isinstance(attrs, dict):
-            raise TypeError('attrs must be type of dict')
+        if not isinstance(academy, ImAcademy):
+            raise TypeError('academy')
+        if (academy.name in self.academies.keys()) or (academy.name in self._academy_names):
+            raise ValueError('academy exists, add failed')
+        self._academy_num += 1
+        self._academy_names.append(academy.name)
+        self.academies[academy.name] = academy
 
+    def del_academy(self, academy_name):
+        """
+        删除一个学院
+        :param academy_name: 学院名称
+        :return:
+        """
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if (academy_name not in self._academy_names) or (academy_name not in self.academies.keys()):
+            raise ValueError('%s not exists, del failed' % academy_name)
+        self._academy_num -= 1
+        self._academy_names.remove(academy_name)
+        del self.academies[academy_name]
 
     def createRandomAttrs(self):
         """生成随机属性"""
@@ -65,7 +84,7 @@ class ImCollege():
             academy = ImAcademy(self, academyE.value)
             academy.fillMajors()
             self.academies[academyE.name] = academy
-            self.academyNum += 1
+            self._academy_num += 1
         # print('--------------------------------------')
         # for key, val in self.academies.items():
         #     print(key)
@@ -144,35 +163,60 @@ class ImCollege():
         self._area = val
 
     @property
+    def headmaster(self):
+        return self._headmaster
+
+    @headmaster.setter
+    def headmaster(self, headmaster):
+        if not isinstance(headmaster, ImTeacher):
+            raise TypeError('headmaster')
+        self._headmaster = headmaster
+
+    @property
     def academy_num(self):
         return self._academy_num
 
-    @academy_num.setter
-    def academy_num(self, val):
-        if not isinstance(val, int):
-            raise TypeError('academy num must be type of int')
-        self._academy_num = val
+    @property
+    def major_num(self):
+        return self._major_num
+
+    @major_num.setter
+    def major_num(self, num):
+        if not isinstance(num, int):
+            raise TypeError('num')
+        self._major_num = num
+
+    @property
+    def student_num(self):
+        return self._student_num
+
+    @student_num.setter
+    def student_num(self, num):
+        if not isinstance(num, int):
+            raise TypeError('num')
+        self._student_num = num
+
+    @property
+    def teacher_num(self):
+        return self._teacher_num
+
+    @teacher_num.setter
+    def teacher_num(self, num):
+        if not isinstance(num, int):
+            raise TypeError('num')
+        self._teacher_num = num
 
     @property
     def academy_names(self):
         return self._academy_names
 
-    @academy_names.setter
-    def academy_names(self, names):
-        if not isinstance(names, list):
-            raise TypeError('academy names must be type of list')
-        self._academy_names = names
-
     @property
-    def academy_dict(self):
-        return self._academy_dict
+    def academies(self):
+        return self._academies
 
-    @academy_dict.setter
-    def academy_dict(self, academys):
-        if not isinstance(academys, dict):
-            raise TypeError('academys must be type of dict')
-        self._academy_dict = academys
+    @academies.setter
+    def academies(self, academies):
+        if not isinstance(academies, dict):
+            raise TypeError('academies must be type of dict')
+        self._academies = academies
 
-
-a = {1:11, 2:22}
-a[3]

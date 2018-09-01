@@ -54,6 +54,18 @@ class ImTeacher(Person):
         self._grade = {}            # 负责教授的年级/班级字典，key为年级编号，value为班级编号列表
         self._curricula = []        # 负责教授的课程
 
+    def __str__(self):
+        return self.name
+
+    def add_curriculum(self, curriculum):
+        if not isinstance(curriculum, str):
+            raise TypeError('curriculum')
+        self.curricula.append(curriculum)
+
+    def del_curriculum(self, curriculum):
+        if curriculum in self.curricula:
+            self.curricula.remove(curriculum)
+
     @property
     def title(self):
         return self._title

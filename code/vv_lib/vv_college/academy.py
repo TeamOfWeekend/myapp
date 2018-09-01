@@ -21,9 +21,8 @@ class ImAcademy:
         self._description = ''      # 学院概述
         self._major_num = 0         # 专业数量
         self._major_names = []      # 专业名称
-        self._major_dict = {}       # 专业
+        self._majors = {}           # 专业
         self._college = college     # 所属学校
-
 
     def fillMajors(self):
         # try:
@@ -33,9 +32,21 @@ class ImAcademy:
             major.name = ACADEMY_MAJOR_DIR[self.name][id]
             major.createRandomAttrs()
             self.majors[ACADEMY_MAJOR_DIR[self.name][id]] = major
-            self.majorNum += 1
+            self.major_num += 1
         # except:
         #     print('选择的院系名称有误')
+
+    def add_major(self, major):
+        if not isinstance(major, ImMajor):
+            raise TypeError('major')
+        if major.name not in self.majors.keys():
+            self.majors[major.name] = major
+
+    def del_major(self, major_name):
+        if not isinstance(major_name, str):
+            raise TypeError('major_name')
+        if major_name in self.majors.keys():
+            del self.majors[major_name]
 
     @property
     def name(self):
@@ -88,14 +99,14 @@ class ImAcademy:
         self._major_names = major_names
 
     @property
-    def major_dict(self):
-        return self._major_dict
+    def majors(self):
+        return self._majors
 
-    @major_dict.setter
-    def major_dict(self, major_dict):
-        if not isinstance(major_dict, dict):
+    @majors.setter
+    def majors(self, majors):
+        if not isinstance(majors, dict):
             raise TypeError('major_dict')
-        self._major_dict = major_dict
+        self._majors = majors
 
     @property
     def college(self):
