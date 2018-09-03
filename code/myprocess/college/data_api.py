@@ -14,8 +14,12 @@ from vv_lib.vv_college.major import ImMajor
 from vv_lib.vv_college.grade import ImGrade
 from vv_lib.vv_college.cclass import ImClass
 from vv_lib.vv_college.student import ImStudent
+from vv_lib.vv_college.types import CollegeInformation, CollegeLevel, CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX,\
+    STUDENTS_IN_CLASS_MIN, STUDENTS_IN_CLASS_MAX
 
-gColleges = []
+
+gColleges_info = CollegeInformation()   # 大学信息
+gColleges = []                          # 大学对象，根据大学信息创建
 
 
 def add_college(colleges, college):
@@ -58,7 +62,7 @@ def add_academy(colleges, college_name, academy):
     if not isinstance(academy, ImAcademy):
         raise TypeError('academy')
     college = get_college(colleges, college_name)
-    college.academy_dict[academy.name] = academy
+    college.add_academy(academy.name)
 
 
 def get_academy(colleges, college_name, academy_name):
@@ -76,7 +80,7 @@ def get_academy(colleges, college_name, academy_name):
     if not isinstance(academy_name, str):
         raise TypeError('academy_name')
     college = get_college(colleges, college_name)
-    return college.academy_dict[academy_name]
+    return college.get_academy(academy_name)
 
 
 def add_major(colleges, college_name, academy_name, major):
@@ -96,6 +100,8 @@ def add_major(colleges, college_name, academy_name, major):
         raise TypeError('academy_name')
     if not isinstance(major, ImMajor):
         raise TypeError('major')
+    academy = get_academy(colleges, college_name, academy_name)
+    academy.add_major(major)
 
 
 def get_major(colleges, college_name, academy_name, major_name):
@@ -116,7 +122,7 @@ def get_major(colleges, college_name, academy_name, major_name):
     if not isinstance(major_name, str):
         raise TypeError('major_name')
     academy = get_academy(colleges, college_name, academy_name)
-    return academy.majors[major_name]
+    return academy.get_major(major_name)
 
 
 def add_grade(colleges, college_name, academy_name, major_name, grade):
@@ -140,7 +146,7 @@ def add_grade(colleges, college_name, academy_name, major_name, grade):
     if not isinstance(grade, ImGrade):
         raise TypeError('grade')
     major = get_major(colleges, college_name, academy_name, major_name)
-    major.grades.append(grade)
+    major.add_grade(grade)
 
 
 def get_grade(colleges, college_name, academy_name, major_name, grade_id):
@@ -164,11 +170,7 @@ def get_grade(colleges, college_name, academy_name, major_name, grade_id):
     if not isinstance(grade_id, int):
         raise TypeError('grade_id')
     major = get_major(colleges, college_name, academy_name, major_name)
-    for grade in major.grades:
-        if grade_id == grade.id:
-            return grade
-    return None
-
+    return major.get_grade(grade_id)
 
 
 def add_classs(colleges, college_name, academy_name, major_name, grade_id, classs):
@@ -195,7 +197,7 @@ def add_classs(colleges, college_name, academy_name, major_name, grade_id, class
     if not isinstance(classs, ImClass):
         raise TypeError('classs')
     grade = get_grade(colleges, college_name, academy_name, major_name, grade_id)
-    grade.classes.append(classs)
+    grade.add_class(classs)
 
 
 def get_classs(colleges, college_name, academy_name, major_name, grade_id, class_id):
@@ -222,10 +224,7 @@ def get_classs(colleges, college_name, academy_name, major_name, grade_id, class
     if not isinstance(class_id, int):
         raise TypeError('class_id')
     grade = get_grade(colleges, college_name, academy_name, major_name, grade_id)
-    for classs in grade.classes:
-        if class_id == classs.id:
-            return classs
-    return None
+    return grade.get_class(class_id)
 
 
 def add_student(colleges, college_name, academy_name, major_name, grade_id, class_id, student):
@@ -255,7 +254,7 @@ def add_student(colleges, college_name, academy_name, major_name, grade_id, clas
     if not isinstance(student, ImStudent):
         raise TypeError('student')
     classs = get_classs(colleges, college_name, academy_name, major_name, grade_id, class_id)
-    classs.students.append(student)
+    classs.add_student(student)
 
 
 def get_student(colleges, college_name, academy_name, major_name, grade_id, class_id, student_id):
@@ -285,8 +284,5 @@ def get_student(colleges, college_name, academy_name, major_name, grade_id, clas
     if not isinstance(student_id, int):
         raise TypeError('student_id')
     classs = get_classs(colleges, college_name, academy_name, major_name, grade_id, class_id)
-    for student in classs.students:
-        if student_id == student.id:
-            return student
-    return None
+    return classs.get_student(student_id)
 

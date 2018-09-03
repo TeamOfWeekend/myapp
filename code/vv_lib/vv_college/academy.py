@@ -48,6 +48,19 @@ class ImAcademy:
         if major_name in self.majors.keys():
             del self.majors[major_name]
 
+    def get_major(self, major_name):
+        """
+        根据专业名获取专业对象
+        :param major_name:
+        :return:
+        """
+        if not isinstance(major_name, str):
+            raise TypeError('major_name')
+        if major_name in self.majors.keys():
+            return self.majors[major_name]
+        else:
+            return None
+
     @property
     def name(self):
         return self._name

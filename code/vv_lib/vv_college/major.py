@@ -32,7 +32,7 @@ class ImMajor:
         for i in range(1, 5):
             grade = ImGrade(self, i)
             grade.createRandomAttrs()
-            self.grades.append(grade)
+            self.grades[grade.id] = grade
             self._grade_num += 1
             # ranInt = random.randint(CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX)
             # for j in range(CLASSS_IN_MAJOR_MIN, ranInt + 1):
@@ -52,6 +52,19 @@ class ImMajor:
         if grade_id in self.grades.keys():
             del self.grades[grade_id]
 
+    def get_grade(self, grade_id):
+        """
+        根据年级编号获取年级对象
+        :param grade_id:
+        :return:
+        """
+        if not isinstance(grade_id, int):
+            raise TypeError('grade_id')
+        if grade_id in self.grades.keys():
+            return self.grades[grade_id]
+        else:
+            return None
+
     def add_teacher(self, teacher):
         if not isinstance(teacher, ImTeacher):
             raise TypeError('teacher')
@@ -63,6 +76,19 @@ class ImMajor:
             raise TypeError('teacher_name')
         if teacher_name in self.teachers.keys():
             del self.teachers[teacher_name]
+
+    def get_teacher(self, teacher_name):
+        """
+        根据教师姓名获取教师对象
+        :param teacher_name:
+        :return:
+        """
+        if not isinstance(teacher_name, str):
+            raise TypeError('teacher_name')
+        if teacher_name in self.teachers.keys():
+            return self.teachers[teacher_name]
+        else:
+            return None
 
     @property
     def name(self):

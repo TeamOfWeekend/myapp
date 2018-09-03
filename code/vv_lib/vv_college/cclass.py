@@ -14,7 +14,7 @@ from vv_lib.vv_college.grade import ImGrade
 from vv_lib.vv_college.types import STUDENTS_IN_CLASS_MAX, STUDENTS_IN_CLASS_MIN
 
 
-class ImClass():
+class ImClass:
     """大学班级"""
     def __init__(self):
         self._id = id            # 编号
@@ -59,6 +59,26 @@ class ImClass():
         self._student_num += 1
         student.id = self.student_num
         self.students[student.id] = student
+
+    def del_student(self, student_id):
+        if not isinstance(student_id, int):
+            raise TypeError('student_id')
+        if student_id in self.students.keys():
+            self._student_num -= 1
+            del self.students[student_id]
+
+    def get_student(self, student_name):
+        """
+        根据学生姓名获取学生对象
+        :param student_name:
+        :return:
+        """
+        if not isinstance(student_name, str):
+            raise TypeError('student_name')
+        if student_name in self.students.keys():
+            return self.students[student_name]
+        else:
+            return None
 
     @property
     def id(self):

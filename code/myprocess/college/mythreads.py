@@ -19,8 +19,8 @@ from myprocess.college.td_dataRenew import thread_data_update
 from myprocess.college.td_ipc import thread_ipc_receive
 
 thread_info = ((1, 'socket with django', thread_socket_receive),
-              (2, 'college data update', thread_data_update),
-              (3, 'ipc with other process', thread_ipc_receive))
+               (2, 'college data update', thread_data_update),
+               (3, 'ipc with other process', thread_ipc_receive))
 
 
 # 锁1：学校信息数据锁

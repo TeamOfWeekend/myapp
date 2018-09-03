@@ -45,6 +45,19 @@ class ImGrade:
         if class_id not in self.classes.keys():
             del self.classes[class_id]
 
+    def get_class(self, class_id):
+        """
+        根据班级编号获取班级对象
+        :param class_id:
+        :return:
+        """
+        if not isinstance(class_id, int):
+            raise TypeError('class_id')
+        if class_id in self.classes.keys():
+            return self.classes[class_id]
+        else:
+            return None
+
     @property
     def id(self):
         return self._id

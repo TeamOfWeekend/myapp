@@ -9,57 +9,288 @@
 @Software: PyCharm Community Edition
 """
 
-from enum import Enum, unique
 
+class CollegeInformation:
+    """
+    学校信息类，存放各个学校信息，包括学校名称、每个学校包含的学院、每个学院包含的专业、
+    每个专业包含的年级、每个年级包含的班级
+    """
+    def __init__(self):
+        self._information = {}
+        self._college_num = 0
+        self._academy_num = 0
+        self._major_num = 0
+        self._grade_num = 0
+        self._class_num = 0
 
-@unique
-class CollegeEnum(Enum):
-    北京大学 = 1
-    清华大学 = 2
-    中国人民大学 = 3
-    中国航空航天大学 = 4
-    郑州大学 = 5
+    def add_college_info(self, college_name):
+        """
+        增加一项学校信息
+        :param college_name: 学校名称
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if college_name in self.information.keys():
+            return False
+        else:
+            self.information[college_name] = {}
+            self._college_num += 1
+            return True
 
+    def del_college_info(self, college_name):
+        """
+        删除一项学校信息
+        :param college_name:
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if college_name in self.information.keys():
+            del self.information[college_name]
+            self._college_num -= 1
+            return True
+        return False
 
-@unique
-class CollegeLevel(Enum):
-    """学校级别"""
-    双一流 = 1
-    普通一本 = 2
-    二本 = 3
-    三本 = 4
-    专科 = 5
+    def add_academy_info(self, college_name, academy_name):
+        """
+        增加一项学院信息
+        :param college_name: 学校名称
+        :param academy_name: 学院名称
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if college_name in self.information.keys():
+            college_into = self.information[college_name]
+            if academy_name not in college_into.keys():
+                college_into[academy_name] = {}
+                self._academy_num += 1
+                return True
+        return False
 
+    def del_academy_info(self, college_name, academy_name):
+        """
+        删除一项学院信息
+        :param college_name:
+        :param academy_name:
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if college_name in self.information.keys():
+            college_into = self.information[college_name]
+            if academy_name in college_into.keys():
+                del college_into[academy_name]
+                self._academy_num -= 1
+                return True
+        return False
 
-@unique
-class AcademyEnum(Enum):
-    计算机学院 = 1
-    信息工程学院 = 2
-    电气工程学院 = 3
-    医学院 = 4
-    土木工程学院 = 5
-    机械工程学院 = 6
-    理学院 = 7
-    文学院 = 8
-    历史学院 = 9
+    def add_major_info(self, college_name, academy_name, major_name):
+        """
+        增加一项专业信息
+        :param college_name:
+        :param academy_name:
+        :param major_name:
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if not isinstance(major_name, str):
+            raise TypeError('major_name')
+        if college_name in self.information.keys():
+            college_into = self.information[college_name]
+            if academy_name in college_into.keys():
+                academy_info = college_into[academy_name]
+                if major_name not in academy_info.keys():
+                    academy_info[major_name] = {}
+                    self._major_num += 1
+                    return True
+        return False
 
+    def del_major(self, college_name, academy_name, major_name):
+        """
+        删除一项专业信息
+        :param college_name:
+        :param academy_name:
+        :param major_name:
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if not isinstance(major_name, str):
+            raise TypeError('major_name')
+        if college_name in self.information.keys():
+            college_info = self.information[college_name]
+            if academy_name in college_info.keys():
+                academy_info = college_info[academy_name]
+                if major_name in academy_info.keys():
+                    del academy_info[major_name]
+                    self._major_num -= 1
+                    return True
+        return False
 
+    def add_grade_info(self, college_name, academy_name, major_name, grade_id):
+        """
+        增加一项年级信息
+        :param college_name:
+        :param academy_name:
+        :param major_name:
+        :param grade_id:
+        :param grade:
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if not isinstance(major_name, str):
+            raise TypeError('major_name')
+        if not isinstance(grade_id, int):
+            raise TypeError('grade_id')
+        if college_name in self.information.keys():
+            college_info = self.information[college_name]
+            if academy_name in college_info.keys():
+                academy_info = college_info[academy_name]
+                if major_name in academy_info.keys():
+                    major_info = academy_info[major_name]
+                    if grade_id not in major_info.keys():
+                        major_info[grade_id] = []
+                        self._grade_num += 1
+                        return True
+        return False
 
-ACADEMY_MAJOR_DIR = {'计算机学院' : ['软件工程', '计算机科学与技术', '计算机软件'],
-                     '信息工程学院' : ['信息工程', '通信工程', '电子信息工程'],
-                     '电气工程学院' : ['电气工程及其自动化', '自动化', '生物医学工程'],
-                     '医学院' : ['基础医学', '预防医学', '临床医学', '麻醉学', '医学影像'],
-                     '土木工程学院' : ['土木工程', '水务工程'],
-                     '机械工程学院' : ['机械设计制造及自动化', '材料成型机控制工程', '工业设计'],
-                     '理学院' : ['数学与应用数学', '信息与计算科学', '数理基础科学'],
-                     '文学院' : ['图书馆学', '档案学', '汉语言文学'],
-                     '历史学院' : ['历史学', '考古学', '世界历史', '民族学'],}
+    def del_grade_info(self, college_name, academy_name, major_name, grade_id):
+        """
+        删除一项年级信息
+        :param college_name:
+        :param academy_name:
+        :param major_name:
+        :param grade_id:
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if not isinstance(major_name, str):
+            raise TypeError('major_name')
+        if not isinstance(grade_id, int):
+            raise TypeError('grade_id')
+        if college_name in self.information.keys():
+            college_info = self.information[college_name]
+            if academy_name in college_info.keys():
+                academy_info = college_info[academy_name]
+                if major_name in academy_info.keys():
+                    major_info = academy_info[major_name]
+                    if grade_id in major_info.keys():
+                        del major_info[grade_id]
+                        self._grade_num -= 1
+                        return True
+        return False
 
+    def add_class_info(self, college_name, academy_name, major_name, grade_id, class_id):
+        """
+        增加一个班级信息，班级使用list存储
+        :param college_name:
+        :param academy_name:
+        :param major_name:
+        :param grade_id:
+        :param class_id:
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if not isinstance(major_name, str):
+            raise TypeError('major_name')
+        if not isinstance(grade_id, int):
+            raise TypeError('grade_id')
+        if not isinstance(class_id, int):
+            raise TypeError('class_id')
+        if college_name in self.information.keys():
+            college_info = self.information[college_name]
+            if academy_name in college_info.keys():
+                academy_info = college_info[academy_name]
+                if major_name in academy_info.keys():
+                    major_info = academy_info[major_name]
+                    if grade_id in major_info.keys():
+                        grade_info = major_info[grade_id]
+                        if class_id not in grade_info:
+                            grade_info.append(class_id)
+                            self._class_num += 1
+                            return True
+        return False
 
-# 每个专业每级班级数的最大最小值
-CLASSS_IN_MAJOR_MIN = 1
-CLASSS_IN_MAJOR_MAX = 5
+    def del_class_info(self, college_name, academy_name, major_name, grade_id, class_id):
+        """
+        增加一个班级信息，班级使用list存储
+        :param college_name:
+        :param academy_name:
+        :param major_name:
+        :param grade_id:
+        :param class_id:
+        :return:
+        """
+        if not isinstance(college_name, str):
+            raise TypeError('college_name')
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if not isinstance(major_name, str):
+            raise TypeError('major_name')
+        if not isinstance(grade_id, int):
+            raise TypeError('grade_id')
+        if not isinstance(class_id, int):
+            raise TypeError('class_id')
+        if college_name in self.information.keys():
+            college_info = self.information[college_name]
+            if academy_name in college_info.keys():
+                academy_info = college_info[academy_name]
+                if major_name in academy_info.keys():
+                    major_info = academy_info[major_name]
+                    if grade_id in major_info.keys():
+                        grade_info = major_info[grade_id]
+                        if class_id in grade_info:
+                            grade_info.remove(class_id)
+                            self._class_num -= 1
+                            return True
+        return False
 
-# 每个班学生数量的最大最小值
-STUDENTS_IN_CLASS_MAX = 50
-STUDENTS_IN_CLASS_MIN = 5
+    @property
+    def information(self):
+        return self._information
+
+    @information.setter
+    def information(self, information):
+        if not isinstance(information, dict):
+            raise TypeError('information')
+        self._information = information
+
+    @property
+    def college_num(self):
+        return self._college_num
+
+    @property
+    def academy_num(self):
+        return self._academy_num
+
+    @property
+    def major_num(self):
+        return self._major_num
+
+    @property
+    def grade_num(self):
+        return self._grade_num
+
+    @property
+    def class_num(self):
+        return self._class_num

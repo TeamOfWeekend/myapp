@@ -7,14 +7,25 @@
 @Software: PyCharm Community Edition
 @Time    : 2018/7/24 22:07
 """
-
+from enum import Enum, unique
 # import random
+
 from vv_lib.vv_college.types import AcademyEnum, CollegeLevel
 from vv_lib.vv_college.academy import ImAcademy
 from vv_lib.vv_college.teacher import ImTeacher
 
 
-class ImCollege():
+@unique
+class CollegeLevel(Enum):
+    """学校级别"""
+    双一流 = 1
+    普通一本 = 2
+    二本 = 3
+    三本 = 4
+    专科 = 5
+
+
+class ImCollege:
     """大学"""
     def __init__(self):
         """学校属性"""
@@ -75,6 +86,19 @@ class ImCollege():
         self._academy_num -= 1
         self._academy_names.remove(academy_name)
         del self.academies[academy_name]
+
+    def get_academy(self, academy_name):
+        """
+        根据学院名获取学院对象
+        :param academy_name:
+        :return:
+        """
+        if not isinstance(academy_name, str):
+            raise TypeError('academy_name')
+        if academy_name in self.academies.keys():
+            return self.academies[academy_name]
+        else:
+            return None
 
     def createRandomAttrs(self):
         """生成随机属性"""

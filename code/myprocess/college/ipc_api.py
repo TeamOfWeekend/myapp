@@ -124,4 +124,4 @@ def send_ipc_reply(server, ipc_msg_rev, data):
     ipc_msg_send.msg_subtype = ipc_msg_rev.msg_subtype
     ipc_msg_send.opcode = IPC_Opcode.Reply
     ipc_msg_send.data = data
-    server.sendall(repr(ipc_msg_send.to_list()).decode())
+    server.sendall(repr(ipc_msg_send.tolist()).decode())

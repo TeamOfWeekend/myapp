@@ -14,6 +14,7 @@ from pypinyin import pinyin, NORMAL
 from enum import Enum, unique
 
 from vv_lib.vv_person import baijiaxing, person, enumTypes
+from vv_lib.vv_college.cclass import ImClass
 
 
 @unique
@@ -30,6 +31,7 @@ class MaleHobbies(Enum):
     看电影 = 10
     旅游 = 11
 
+
 @unique
 class FemaleHobbies(Enum):
     逛街 = 1
@@ -42,24 +44,17 @@ class FemaleHobbies(Enum):
 
 class ImStudent(person.Person):
     """大学生"""
-    def __init__(self, classs):
+    def __init__(self):
         # 继承父类的构造方法，两种方式
         # person.Person.__init__()
         super(ImStudent, self).__init__()
+        self._id = 0                 # 学号
+        self._name_pinyin = ''       # 名字拼音
+        self._year_in_college = 0    # 入学年份
+        self._cclass = 0             # 所属班级
+        self._hobbies = []           # 爱好
 
-        # 学号
-        self.id = 0
-        # 名字拼音
-        self.namePinYin = ''
-        # 入学年份
-        self.year_in_college = 0
-        # 所属班级
-        self.classs = classs
-        # 爱好
-        self.hobbies = ''
-
-
-    def createRandomName(self):
+    def get_random_name(self):
         """随机获取一个名字"""
         self.name = baijiaxing.getRandomName()
         # 将汉字转换为拼音，pinyin()转换后是列表，不加style转换后带声调
@@ -68,64 +63,104 @@ class ImStudent(person.Person):
             piny = ''.join(piny)
             if (1 == pos) or (2 == pos):
                 piny = piny.capitalize()
-            self.namePinYin += piny
+            self.name_pinyin += piny
             pos += 1
         # print(self.namePinYin)
 
-
-    def createRandomSex(self):
+    def get_random_sex(self):
         """随机获取性别"""
-        ranInt = random.randint(1, len(enumTypes.SexEnum))
-        self.sex = enumTypes.SexEnum(ranInt).name
+        random_int = random.randint(1, len(enumTypes.SexEnum))
+        self.sex = enumTypes.SexEnum(random_int).name
 
-
-    def createRandomHobbies(self):
+    def get_random_hobbies(self):
         """获取随机爱好"""
 
-        hobbyCnt = 0
+        hobby_cnt = 0
         if enumTypes.SexEnum(1).name == self.sex:
             ranInts = random.sample(range(1, len(MaleHobbies) + 1), random.randint(1, len(MaleHobbies)))
             for ranInt in ranInts:
-                if 0 != hobbyCnt:
+                if 0 != hobby_cnt:
                     self.hobbies += ','
                 self.hobbies += MaleHobbies(ranInt).name
-                hobbyCnt += 1
+                hobby_cnt += 1
         else:
             ranInts = random.sample(range(1, len(FemaleHobbies) + 1), random.randint(1, len(FemaleHobbies)))
             for ranInt in ranInts:
-                if 0 != hobbyCnt:
+                if 0 != hobby_cnt:
                     self.hobbies += ','
                 self.hobbies += FemaleHobbies(ranInt).name
-                hobbyCnt += 1
+                hobby_cnt += 1
 
-
-
-    def createId(self):
+    def create_id(self):
         """根据入学年份、学校、院系、专业，生成学号，如 2018 000011 002 03 05"""
-        self.id = self.year_in_college * 10**13\
-                  + self.classs.grade.major.academy.college.id * 10**7\
-                  + self.classs.grade.major.academy.id * 10**4\
-                  + self.classs.grade.major.id * 10**2\
-                  + self.id
+        self.id = self.year_in_college * 10**13 +\
+                  self.cclass.grade.major.academy.college.id * 10**7 +\
+                  self.cclass.grade.major.academy.id * 10**4 +\
+                  self.cclass.grade.major.id * 10**2 +\
+                  self.id
         # print('%6s --> %d' % (self.name, self.id))
 
-
-    def createRandomAttrs(self):
+    def get_random_attributes(self):
         """创建随机属性"""
         if datetime.datetime.now().month < 6:
-            self.year_in_college = datetime.datetime.now().year - self.classs.grade.id
+            self.year_in_college = datetime.datetime.now().year - self.cclass.grade.id
         else:
-            self.year_in_college = datetime.datetime.now().year - self.classs.grade.id + 1
+            self.year_in_college = datetime.datetime.now().year - self.cclass.grade.id + 1
 
-        self.createRandomName()
-        self.createRandomSex()
-        self.createRandomHobbies()
+        self.get_random_name()
+        self.get_random_sex()
+        self.get_random_hobbies()
         # self.createId()
         self.age = (datetime.datetime.now().year - self.year_in_college + 17)
         self.height = round(random.randint(130, 200) + random.random(), 1)
         self.weight = round(random.randint(30, 100) + random.random(), 1)
 
+    @property
+    def id(self):
+        return self._id
 
-    def getStudentAllInfo(self):
-        """"""
-        info = {}
+    @id.setter
+    def id(self, val):
+        if not isinstance(val, int):
+            raise TypeError('id')
+        self._id = val
+
+    @property
+    def name_pinyin(self):
+        return self._name_pinyin
+
+    @name_pinyin.setter
+    def name_pinyin(self, name_pinyin):
+        if not isinstance(name_pinyin, str):
+            raise TypeError('name_pinyin')
+        self._name_pinyin = name_pinyin
+
+    @property
+    def year_in_college(self):
+        return self._year_in_college
+
+    @year_in_college.setter
+    def year_in_college(self, year):
+        if not isinstance(year, int):
+            raise TypeError('year')
+        self._year_in_college = year
+
+    @property
+    def cclass(self):
+        return self._cclass
+
+    @cclass.setter
+    def cclass(self, cclass):
+        if not isinstance(cclass, ImClass):
+            raise TypeError('cclass')
+        self._cclass = cclass
+
+    @property
+    def hobbies(self):
+        return self._hobbies
+
+    @hobbies.setter
+    def hobbies(self, hobbies):
+        if not isinstance(hobbies, list):
+            raise TypeError('hobbies')
+        self._hobbies = hobbies
