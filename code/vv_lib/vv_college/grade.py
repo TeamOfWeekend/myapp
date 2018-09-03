@@ -9,9 +9,6 @@
 @Software: PyCharm Community Edition
 """
 
-import random
-
-from vv_lib.vv_college.types import CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX
 from vv_lib.vv_college.cclass import ImClass
 from vv_lib.vv_college.major import ImMajor
 
@@ -23,15 +20,6 @@ class ImGrade:
         self._class_num = 0     # 包含的班级数量
         self._classes = {}      # 存放班级的字典
         self._major = None     # 所属的专业
-
-
-    def createRandomAttrs(self):
-        """创建随机属性"""
-        self._class_num = random.randint(CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX)
-        for i in range(0, self._class_num):
-            classs = ImClass(self, i+1)
-            classs.createRandomAttrs()
-            self.add_class(classs)
 
     def add_class(self, classs):
         if not isinstance(classs, ImClass):

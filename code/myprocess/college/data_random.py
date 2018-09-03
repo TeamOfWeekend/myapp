@@ -9,8 +9,9 @@
 @Software: PyCharm Community Edition
 """
 
-import numpy
+import random
 
+from vv_lib.vv_person.baijiaxing import get_random_name
 from vv_lib.vv_college.types import CollegeInformation
 from vv_lib.vv_college.college import ImCollege
 from vv_lib.vv_college.academy import ImAcademy
@@ -33,12 +34,16 @@ ACADEMY_MAJORS = {'计算机学院': ['软件工程', '计算机科学与技术'
                      '历史学院': ['历史学', '考古学', '世界历史', '民族学']}
 
 # 每个专业每级班级数的最大最小值
-CLASSS_IN_MAJOR_MIN = 1
-CLASSS_IN_MAJOR_MAX = 5
+CLASS_PER_MAJOR_MIN = 1
+CLASS_PER_MAJOR_MAX = 10
 
 # 每个班学生数量的最大最小值
-STUDENTS_IN_CLASS_MAX = 50
-STUDENTS_IN_CLASS_MIN = 5
+STUDENTS_PER_CLASS_MAX = 50
+STUDENTS_PER_CLASS_MIN = 5
+
+# 每个专业教师数量的最大值和最小值
+TEACHERS_PET_MAJOR_MAX = 50
+TEACHERS_PET_MAJOR_MIN = 20
 
 
 def create_random_college_info(gColleges_info):
@@ -63,7 +68,7 @@ def create_random_college_info(gColleges_info):
                         gColleges_info.add_class_info(college_name, academy_name, major_name, grade_id, class_id)
 
 
-def create_random_colleges(gColleges, gColleges_info):
+def create_random_colleges(gColleges_info, gColleges):
     """
     根据随机大学信息，创建随机大学数据
     :param gColleges:
@@ -85,6 +90,7 @@ def create_random_colleges(gColleges, gColleges_info):
             for major_name, major_info in academy_info.items():
                 major = ImMajor()
                 major.name = major_name
+                major.teachers = get_random_teachers()
                 academy.add_major(major)
                 for grade_id, grade_info in major_info.items():
                     grade = ImGrade()
@@ -93,9 +99,37 @@ def create_random_colleges(gColleges, gColleges_info):
                     for class_id in grade_info:
                         cclass = ImClass()
                         cclass.id = class_id
+                        cclass.students = get_random_students()
+                        cclass.update_student_id()
                         grade.add_class(cclass)
 
 
-# colleges_info = CollegeInformation()
-# create_random_college_info(colleges_info)
-# print(colleges_info.information)
+def get_random_teachers():
+    rand_int = random.randint(TEACHERS_PET_MAJOR_MIN, TEACHERS_PET_MAJOR_MAX)
+    teachers = {}
+    for i in range(0, rand_int):
+        teacher = ImTeacher()
+        teacher.name = get_random_name()
+        teachers[teacher.name] = teacher
+    return teachers
+
+
+def get_random_students():
+    rand_int = random.randint(STUDENTS_PER_CLASS_MIN, STUDENTS_PER_CLASS_MAX)
+    students = {}
+    for i in range(0, rand_int):
+        student = ImStudent()
+        student.name = get_random_name()
+        student.id = i + 1
+        students[student.name] = student
+    return students
+
+
+colleges_info = CollegeInformation()
+create_random_college_info(colleges_info)
+print(colleges_info.information)
+
+colleges = []
+create_random_colleges(colleges, colleges_info)
+for college in colleges:
+    print(college.name)

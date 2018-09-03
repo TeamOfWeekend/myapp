@@ -21,7 +21,6 @@ process_def = ((1, 'college process', run_college),
                (2, 'student process', run_student))
 
 
-
 if __name__ == "__main__":
     process_list = []
     my_global = MyGlobal()

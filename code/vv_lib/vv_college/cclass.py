@@ -8,10 +8,8 @@
 @Time    : 2018/7/24 22:16
 """
 
-import random
 from vv_lib.vv_college.student import ImStudent
 from vv_lib.vv_college.grade import ImGrade
-from vv_lib.vv_college.types import STUDENTS_IN_CLASS_MAX, STUDENTS_IN_CLASS_MIN
 
 
 class ImClass:
@@ -22,17 +20,7 @@ class ImClass:
         self._students = {}      # 学生
         self._grade = None       # 所属年级
 
-    def createRandomAttrs(self):
-        """生成随机属性"""
-        self.studentNum = random.randint(STUDENTS_IN_CLASS_MIN, STUDENTS_IN_CLASS_MAX)
-        for i in range(0, self.studentNum):
-            stu = ImStudent(self)
-            stu.createRandomAttrs()
-            self.add_student(stu)
-        self.sortStudentsIdByNamePinYin()
-
-
-    def sortStudentsIdByNamePinYin(self):
+    def update_student_id(self):
         """按名字顺序对学生进行排序"""
         n = len(self.students)
         while n > 1:
@@ -49,7 +37,7 @@ class ImClass:
                 break
             n -= 1
 
-        for i in range(0,len(self.students)):
+        for i in range(0, len(self.students)):
             self.students[i].id = i + 1
             self.students[i].createId()
 
@@ -113,6 +101,3 @@ class ImClass:
         if not isinstance(grade, ImGrade):
             raise TypeError('grade')
         self._grade = grade
-
-
-

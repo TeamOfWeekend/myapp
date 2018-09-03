@@ -14,8 +14,7 @@ from vv_lib.vv_college.major import ImMajor
 from vv_lib.vv_college.grade import ImGrade
 from vv_lib.vv_college.cclass import ImClass
 from vv_lib.vv_college.student import ImStudent
-from vv_lib.vv_college.types import CollegeInformation, CollegeLevel, CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX,\
-    STUDENTS_IN_CLASS_MIN, STUDENTS_IN_CLASS_MAX
+from vv_lib.vv_college.types import CollegeInformation
 
 
 gColleges_info = CollegeInformation()   # 大学信息

@@ -115,5 +115,3 @@ class ImTeacher(Person):
         if isinstance(curricula, list):
             raise TypeError('curricula')
         self._curricula = curricula
-
-

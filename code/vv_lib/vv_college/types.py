@@ -145,7 +145,6 @@ class CollegeInformation:
         :param academy_name:
         :param major_name:
         :param grade_id:
-        :param grade:
         :return:
         """
         if not isinstance(college_name, str):

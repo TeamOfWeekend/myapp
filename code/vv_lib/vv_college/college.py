@@ -10,7 +10,6 @@
 from enum import Enum, unique
 # import random
 
-from vv_lib.vv_college.types import AcademyEnum, CollegeLevel
 from vv_lib.vv_college.academy import ImAcademy
 from vv_lib.vv_college.teacher import ImTeacher
 

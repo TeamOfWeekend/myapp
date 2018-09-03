@@ -30,8 +30,9 @@ class ImMajor:
         """创建随机属性"""
         # 四个年级，每个年级班级数目随机
         for i in range(1, 5):
-            grade = ImGrade(self, i)
-            grade.createRandomAttrs()
+            grade = ImGrade()
+            grade.major = self
+            grade.id = i
             self.grades[grade.id] = grade
             self._grade_num += 1
             # ranInt = random.randint(CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX)

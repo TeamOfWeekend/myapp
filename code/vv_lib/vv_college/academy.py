@@ -8,7 +8,6 @@
 @Time    : 2018/7/24 22:29
 """
 
-from vv_lib.vv_college.types import ACADEMY_MAJOR_DIR, AcademyEnum
 from vv_lib.vv_college.major import ImMajor
 from vv_lib.vv_college.college import ImCollege
 

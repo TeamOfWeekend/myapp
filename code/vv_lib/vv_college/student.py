@@ -8,9 +8,10 @@
 @Time    : 2018/7/24 22:28
 """
 
-import random, datetime
-from pypinyin import pinyin, NORMAL
+import random
+import datetime
 
+from pypinyin import pinyin, NORMAL
 from enum import Enum, unique
 
 from vv_lib.vv_person import baijiaxing, person, enumTypes
@@ -51,12 +52,12 @@ class ImStudent(person.Person):
         self._id = 0                 # 学号
         self._name_pinyin = ''       # 名字拼音
         self._year_in_college = 0    # 入学年份
-        self._cclass = 0             # 所属班级
+        self._cclass = None          # 所属班级
         self._hobbies = []           # 爱好
 
     def get_random_name(self):
         """随机获取一个名字"""
-        self.name = baijiaxing.getRandomName()
+        self.name = baijiaxing.get_random_name()
         # 将汉字转换为拼音，pinyin()转换后是列表，不加style转换后带声调
         pos = 1
         for piny in pinyin(self.name, style=NORMAL):
@@ -114,6 +115,21 @@ class ImStudent(person.Person):
         self.age = (datetime.datetime.now().year - self.year_in_college + 17)
         self.height = round(random.randint(130, 200) + random.random(), 1)
         self.weight = round(random.randint(30, 100) + random.random(), 1)
+
+    def to_pinyin(self):
+        """
+        将名字转换为拼音
+        :return:
+        """
+        # 将汉字转换为拼音，pinyin()转换后是列表，不加style转换后带声调
+        pos = 1
+        for piny in pinyin(self.name, style=NORMAL):
+            piny = ''.join(piny)
+            if (1 == pos) or (2 == pos):
+                piny = piny.capitalize()
+            self.name_pinyin += piny
+            pos += 1
+            # print(self.namePinYin)
 
     @property
     def id(self):
