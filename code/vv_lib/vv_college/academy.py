@@ -18,22 +18,25 @@ class ImAcademy:
         self._name = ''             # 名称
         self._id = mid              # 编号
         self._description = ''      # 学院概述
-        self._major_num = 0         # 专业数量
-        self._major_names = []      # 专业名称
+        self._majors_num = 0        # 专业数量
+        self._majors_name = []      # 专业名称
         self._majors = {}           # 专业
+        self._students_num = 0      # 学生数量
+        self._teachers_num = 0      # 教师数量
         self._college = college     # 所属学校
 
-    def fillMajors(self):
-        # try:
-        self.name = AcademyEnum(self.id).name
-        for id in range(0, len(ACADEMY_MAJOR_DIR[self.name])):
-            major = ImMajor(self, id+1)
-            major.name = ACADEMY_MAJOR_DIR[self.name][id]
-            major.createRandomAttrs()
-            self.majors[ACADEMY_MAJOR_DIR[self.name][id]] = major
-            self.major_num += 1
-        # except:
-        #     print('选择的院系名称有误')
+    def to_dict(self):
+        """
+        将所有属性放在一个字典中
+        :return:
+        """
+        attributes_dict = {}
+        attributes_dict['name'] = self.name
+        attributes_dict['id'] = self.id
+        attributes_dict['description'] = self.description
+        attributes_dict['majors_num'] = self.majors_num
+        attributes_dict['majors_name'] = self.majors_name
+        return attributes_dict
 
     def add_major(self, major):
         if not isinstance(major, ImMajor):
@@ -91,24 +94,12 @@ class ImAcademy:
         self._description = description
 
     @property
-    def major_num(self):
-        return self._major_num
-
-    @major_num.setter
-    def major_num(self, val):
-        if not isinstance(val, int):
-            raise TypeError('major_num')
-        self._major_num = val
+    def majors_num(self):
+        return self._majors_num
 
     @property
-    def major_names(self):
-        return self._major_names
-
-    @major_names.setter
-    def major_names(self, major_names):
-        if not isinstance(major_names, list):
-            raise TypeError('major_names')
-        self._major_names = major_names
+    def majors_name(self):
+        return self._majors_name
 
     @property
     def majors(self):
@@ -119,6 +110,14 @@ class ImAcademy:
         if not isinstance(majors, dict):
             raise TypeError('major_dict')
         self._majors = majors
+
+    @property
+    def students_num(self):
+        return self._students_num
+
+    @property
+    def teachers_num(self):
+        return self._teachers_num
 
     @property
     def college(self):

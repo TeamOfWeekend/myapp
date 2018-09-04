@@ -55,6 +55,28 @@ class ImStudent(person.Person):
         self._cclass = None          # 所属班级
         self._hobbies = []           # 爱好
 
+    def to_dict(self):
+        """
+        将属性放置在字典中
+        :return:
+        """
+        attributes = {}
+        attributes['id'] = self.id
+        attributes['name'] = self.name
+        attributes['name_pinyin'] = self.name_pinyin
+        attributes['sex'] = self.sex
+        attributes['age'] = self.age
+        attributes['year_in_college'] = self.year_in_college
+        attributes['height'] = self.height
+        attributes['weight'] = self.weight
+        attributes['id_number'] = self.id_number
+        attributes['hobbies'] = self.hobbies
+        attributes['bust'] = self.bust
+        attributes['waist'] = self.waist
+        attributes['hips'] = self.hips
+        attributes['married'] = self.married
+        return attributes
+
     def get_random_name(self):
         """随机获取一个名字"""
         self.name = baijiaxing.get_random_name()

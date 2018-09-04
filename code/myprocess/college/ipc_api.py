@@ -14,8 +14,10 @@ from myprocess.college.data_api import get_college, get_academy, get_major, get_
 
 def handle_ipc_msg(server, data, colleges):
     """
-    处理ipc 消息
-    :param data: 接收的数据
+    处理ipc消息
+    :param server:
+    :param data:
+    :param colleges:
     :return:
     """
     ipc_msg = IpcMsg()
@@ -34,12 +36,6 @@ def handle_ipc_msg(server, data, colleges):
     elif MSG_Type.Student == ipc_msg.msg_type:
         handle_ipc_msg_student(server, colleges, ipc_msg)
 
-    college_name = data['college_name']
-    print(college_name)
-    # server.sendall(str({'college_name': '北京大学',
-    #                      'college_area': 100}).encode())
-    server.sendall(repr(get_college(colleges, college_name)).encode())
-
 
 def handle_ipc_msg_college(server, colleges, ipc_msg):
     """
@@ -51,9 +47,11 @@ def handle_ipc_msg_college(server, colleges, ipc_msg):
     if IPC_Opcode.Get == ipc_msg.opcode:
         college_name = ipc_msg.data['college_name']
         college = get_college(colleges, college_name)
-        data = {'name': college.name,
-                'area': college.area}
-        send_ipc_reply(server, ipc_msg, data)
+        if college is None:
+            send_ipc_no_reply(server, ipc_msg)
+        else:
+            data = college.to_dict()
+            send_ipc_reply(server, ipc_msg, data)
 
 
 def handle_ipc_msg_academy(server, colleges, ipc_msg):
@@ -65,8 +63,12 @@ def handle_ipc_msg_academy(server, colleges, ipc_msg):
     """
     college_name = ipc_msg.data['college_name']
     academy_name = ipc_msg.data['academy_name']
-    college = get_college(colleges, college_name)
-    return get_academy(college, academy_name)
+    academy = get_academy(colleges, college_name, academy_name)
+    if academy is None:
+        send_ipc_no_reply(server, ipc_msg)
+    else:
+        data = academy.to_dict()
+        send_ipc_reply(server, ipc_msg, data)
 
 
 def handle_ipc_msg_major(server, colleges, ipc_msg):
@@ -76,7 +78,15 @@ def handle_ipc_msg_major(server, colleges, ipc_msg):
     :param colleges:
     :return:
     """
-    pass
+    college_name = ipc_msg.data['college_name']
+    academy_name = ipc_msg.data['academy_name']
+    major_name = ipc_msg.data['major_name']
+    major = get_major(colleges, college_name, academy_name, major_name)
+    if major is None:
+        send_ipc_no_reply(server, ipc_msg)
+    else:
+        data = major.to_dict()
+        send_ipc_reply(server, ipc_msg, data)
 
 
 def handle_ipc_msg_grade(server, colleges, ipc_msg):
@@ -86,7 +96,16 @@ def handle_ipc_msg_grade(server, colleges, ipc_msg):
     :param colleges:
     :return:
     """
-    pass
+    college_name = ipc_msg.data['college_name']
+    academy_name = ipc_msg.data['academy_name']
+    major_name = ipc_msg.data['major_name']
+    grade_id = ipc_msg.data['grade_id']
+    grade = get_grade(colleges, college_name, academy_name, major_name, grade_id)
+    if grade is None:
+        send_ipc_no_reply(server, ipc_msg)
+    else:
+        data = grade.to_dict()
+        send_ipc_reply(server, ipc_msg, data)
 
 
 def handle_ipc_msg_classs(server, colleges, ipc_msg):
@@ -96,7 +115,17 @@ def handle_ipc_msg_classs(server, colleges, ipc_msg):
     :param colleges:
     :return:
     """
-    pass
+    college_name = ipc_msg.data['college_name']
+    academy_name = ipc_msg.data['academy_name']
+    major_name = ipc_msg.data['major_name']
+    grade_id = ipc_msg.data['grade_id']
+    class_id = ipc_msg.data['class_id']
+    cclass = get_classs(colleges, college_name, academy_name, major_name, grade_id, class_id)
+    if cclass is None:
+        send_ipc_no_reply(server, ipc_msg)
+    else:
+        data = cclass.to_dict()
+        send_ipc_reply(server, ipc_msg, data)
 
 
 def handle_ipc_msg_student(server, colleges, ipc_msg):
@@ -106,22 +135,49 @@ def handle_ipc_msg_student(server, colleges, ipc_msg):
     :param colleges:
     :return:
     """
-    pass
+    college_name = ipc_msg.data['college_name']
+    academy_name = ipc_msg.data['academy_name']
+    major_name = ipc_msg.data['major_name']
+    grade_id = ipc_msg.data['grade_id']
+    class_id = ipc_msg.data['class_id']
+    student_id = ipc_msg.data['student_id']
+    student = get_student(colleges, college_name, academy_name, major_name, grade_id, class_id, student_id)
+    if student is None:
+        send_ipc_no_reply(server, ipc_msg)
+    else:
+        data = student.to_dict()
+        send_ipc_reply(server, ipc_msg, data)
 
 
-def send_ipc_reply(server, ipc_msg_rev, data):
+def send_ipc_reply(server, ipc_msg_rcv, data):
     """
     发送ipc应答消息
     :param server: socket server or connect
-    :param ipc_msg_rev:  接收的ipc消息
+    :param ipc_msg_rcv:  接收的ipc消息
     :param data: 要发送的数据
     :return:
     """
     ipc_msg_send = IpcMsg()
-    ipc_msg_send.module_id = ipc_msg_rev.sender_id
-    ipc_msg_send.sender_id = ipc_msg_rev.module_id
-    ipc_msg_send.msg_type = ipc_msg_rev.msg_type
-    ipc_msg_send.msg_subtype = ipc_msg_rev.msg_subtype
+    ipc_msg_send.module_id = ipc_msg_rcv.sender_id
+    ipc_msg_send.sender_id = ipc_msg_rcv.module_id
+    ipc_msg_send.msg_type = ipc_msg_rcv.msg_type
+    ipc_msg_send.msg_subtype = ipc_msg_rcv.msg_subtype
     ipc_msg_send.opcode = IPC_Opcode.Reply
     ipc_msg_send.data = data
-    server.sendall(repr(ipc_msg_send.tolist()).decode())
+    server.sendall(repr(ipc_msg_send.to_list()).encode())
+
+
+def send_ipc_no_reply(server, ipc_msg_rcv):
+    """
+    发送非应答消息，即无数据
+    :param server:
+    :param ipc_msg_rcv:
+    :return:
+    """
+    ipc_msg_send = IpcMsg()
+    ipc_msg_send.module_id = ipc_msg_rcv.sender_id
+    ipc_msg_send.sender_id = ipc_msg_rcv.module_id
+    ipc_msg_send.msg_type = ipc_msg_rcv.msg_type
+    ipc_msg_send.msg_subtype = ipc_msg_rcv.msg_subtype
+    ipc_msg_send.opcode = IPC_Opcode.NoReply
+    server.sendall(repr(ipc_msg_send.to_list()).encode())

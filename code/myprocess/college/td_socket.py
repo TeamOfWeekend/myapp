@@ -35,13 +35,6 @@ def thread_socket_receive(my_global):
         print('address: ', addr)
         data = connect.recv(1024)
         handle_ipc_msg(connect, data, my_global.paras['gColleges'])
-        # college_name = connect.recv(1024).decode()
-        # print(college_name)
-        # college = get_college(my_global.paras['gColleges'], college_name)
-        # print(college)
-        # connect.sendall(bytes(college))
-        # json_str = json.dumps(college)
-        # connect.sendall(json_str)
         connect.shutdown(socket.SHUT_RDWR)
         connect.close()
 

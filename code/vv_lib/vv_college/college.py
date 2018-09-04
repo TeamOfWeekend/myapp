@@ -35,28 +35,32 @@ class ImCollege:
         self._level = 0             # 学校级别
         self._area = 0              # 校园面积
         self._headmaster = None    # 校长
-        self._academy_num = 0       # 学院数量
-        self._major_num = 0         # 专业数量
-        self._student_num = 0       # 学生数量
-        self._teacher_num = 0       # 教师数量
-        self._academy_names = []    # 学院名称列表
+        self._academies_num = 0     # 学院数量
+        self._academies_name = []   # 学院名称列表
         self._academies = {}        # 学院信息字典，key为学院名，value为学院对象
+        self._majors_num = 0        # 专业数量
+        self._students_num = 0      # 学生数量
+        self._teachers_num = 0      # 教师数量
 
     def to_dict(self):
         """
         将ImCollege实例的属性按顺序放置在字典中
         :return:
         """
-        attrs_dict = {}
-        attrs_dict['name'] = self.name
-        attrs_dict['id'] = self.id
-        attrs_dict['description'] = self.description
-        attrs_dict['address'] = self.address
-        attrs_dict['level'] = self.level
-        attrs_dict['area'] = self.area
-        attrs_dict['academy_num'] = self.academy_num
-        attrs_dict['academy_names'] = self.academy_names
-        return attrs_dict
+        attributes_dict = {}
+        attributes_dict['name'] = self.name
+        attributes_dict['id'] = self.id
+        attributes_dict['description'] = self.description
+        attributes_dict['address'] = self.address
+        attributes_dict['level'] = self.level
+        attributes_dict['area'] = self.area
+        attributes_dict['headmaster'] = self.headmaster
+        attributes_dict['academies_num'] = self.academies_num
+        attributes_dict['majors_num'] = self.majors_num
+        attributes_dict['students_num'] = self.students_num
+        attributes_dict['teachers_num'] = self.teachers_num
+        attributes_dict['academies_name'] = self.academies_name
+        return attributes_dict
 
     def add_academy(self, academy):
         """
@@ -66,10 +70,10 @@ class ImCollege:
         """
         if not isinstance(academy, ImAcademy):
             raise TypeError('academy')
-        if (academy.name in self.academies.keys()) or (academy.name in self._academy_names):
+        if (academy.name in self.academies.keys()) or (academy.name in self._academies_name):
             raise ValueError('academy exists, add failed')
-        self._academy_num += 1
-        self._academy_names.append(academy.name)
+        self._academies_num += 1
+        self._academies_name.append(academy.name)
         self.academies[academy.name] = academy
 
     def del_academy(self, academy_name):
@@ -80,10 +84,10 @@ class ImCollege:
         """
         if not isinstance(academy_name, str):
             raise TypeError('academy_name')
-        if (academy_name not in self._academy_names) or (academy_name not in self.academies.keys()):
+        if (academy_name not in self._academies_name) or (academy_name not in self.academies.keys()):
             raise ValueError('%s not exists, del failed' % academy_name)
-        self._academy_num -= 1
-        self._academy_names.remove(academy_name)
+        self._academies_num -= 1
+        self._academies_name.remove(academy_name)
         del self.academies[academy_name]
 
     def get_academy(self, academy_name):
@@ -99,23 +103,7 @@ class ImCollege:
         else:
             return None
 
-    def createRandomAttrs(self):
-        """生成随机属性"""
-        # self.id = random.randint(1, len(CollegeEnum))
-        # self.name = CollegeEnum(self.id).name
-        for academyE in AcademyEnum:
-            academy = ImAcademy(self, academyE.value)
-            academy.fillMajors()
-            self.academies[academyE.name] = academy
-            self._academy_num += 1
-        # print('--------------------------------------')
-        # for key, val in self.academies.items():
-        #     print(key)
-        #     print(val.majors.keys())
-        # print(self.getStudentNum())
-
-
-    def getStudentNum(self):
+    def get_student_num(self):
         """获取全校学生数量"""
         stuNum = 0
         for academy in self.academies.values():
@@ -196,42 +184,42 @@ class ImCollege:
         self._headmaster = headmaster
 
     @property
-    def academy_num(self):
-        return self._academy_num
+    def academies_num(self):
+        return self._academies_num
 
     @property
-    def major_num(self):
-        return self._major_num
+    def majors_num(self):
+        return self._majors_num
 
-    @major_num.setter
-    def major_num(self, num):
+    @majors_num.setter
+    def majors_num(self, num):
         if not isinstance(num, int):
             raise TypeError('num')
-        self._major_num = num
+        self._majors_num = num
 
     @property
-    def student_num(self):
-        return self._student_num
+    def students_num(self):
+        return self._students_num
 
-    @student_num.setter
-    def student_num(self, num):
+    @students_num.setter
+    def students_num(self, num):
         if not isinstance(num, int):
             raise TypeError('num')
-        self._student_num = num
+        self._students_num = num
 
     @property
-    def teacher_num(self):
-        return self._teacher_num
+    def teachers_num(self):
+        return self._teachers_num
 
-    @teacher_num.setter
-    def teacher_num(self, num):
+    @teachers_num.setter
+    def teachers_num(self, num):
         if not isinstance(num, int):
             raise TypeError('num')
-        self._teacher_num = num
+        self._teachers_num = num
 
     @property
-    def academy_names(self):
-        return self._academy_names
+    def academies_name(self):
+        return self._academies_name
 
     @property
     def academies(self):

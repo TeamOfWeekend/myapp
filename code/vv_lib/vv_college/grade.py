@@ -17,9 +17,21 @@ class ImGrade:
     """年级类"""
     def __init__(self):
         self._id = 0            # 年级编号
-        self._class_num = 0     # 包含的班级数量
+        self._students_num = 0  # 学生数量
+        self._classes_num = 0   # 包含的班级数量
         self._classes = {}      # 存放班级的字典
-        self._major = None     # 所属的专业
+        self._major = None      # 所属的专业
+
+    def to_dict(self):
+        """
+        将所有属性放在一个字典中
+        :return:
+        """
+        attributes = {}
+        attributes['id'] = self.id
+        attributes['students_num'] = self.students_num
+        attributes['classes_num'] = self.classes_num
+        return attributes
 
     def add_class(self, classs):
         if not isinstance(classs, ImClass):
@@ -57,8 +69,12 @@ class ImGrade:
         self._id = val
 
     @property
-    def class_num(self):
-        return self._class_num
+    def students_num(self):
+        return self._students_num
+
+    @property
+    def classes_num(self):
+        return self._classes_num
 
     @property
     def classes(self):

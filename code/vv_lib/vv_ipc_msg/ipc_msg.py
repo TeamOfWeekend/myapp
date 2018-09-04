@@ -46,9 +46,10 @@ class IPC_Opcode(Enum):
     Enable = 7      # 使能
     Disable = 8     # 禁能
     Register = 9    # 注册
-    Unregister = 10 # 解注册
+    UnRegister = 10 # 解注册
     Event = 11      # 事件
     Reply = 12      # 应答
+    NoReply = 13    # 应答
 
 
 @unique

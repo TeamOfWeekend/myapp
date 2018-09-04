@@ -19,27 +19,26 @@ class ImMajor:
     def __init__(self):
         self._name = ''             # 名称
         self._id = 0                # 编号
-        self._teacher_num = 0       # 专业教师数量
+        self._teachers_num = 0      # 专业教师数量
+        self._teachers_name = []    # 教师姓名列表
         self._teachers = {}         # 教师
-        self._grade_num = 0         # 年级数量
+        self._students_num = 0      # 学生数量
+        self._grades_num = 0        # 年级数量
         self._grades = {}           # 年级对象字典
-        self._academy = None       # 所属学院
+        self._academy = None        # 所属学院
 
-
-    def createRandomAttrs(self):
-        """创建随机属性"""
-        # 四个年级，每个年级班级数目随机
-        for i in range(1, 5):
-            grade = ImGrade()
-            grade.major = self
-            grade.id = i
-            self.grades[grade.id] = grade
-            self._grade_num += 1
-            # ranInt = random.randint(CLASSS_IN_MAJOR_MIN, CLASSS_IN_MAJOR_MAX)
-            # for j in range(CLASSS_IN_MAJOR_MIN, ranInt + 1):
-            #     classs = ImClass()
-            #     classs.createRandomAttrs()
-            #     self.grades[i].append(classs)
+    def to_dict(self):
+        """
+        将所有属性放在字典中
+        :return:
+        """
+        attributes_dict = {}
+        attributes_dict['name'] = self.name
+        attributes_dict['id'] = self.id
+        attributes_dict['teachers_num'] = self.teachers_num
+        attributes_dict['teachers_name'] = self.teachers_name
+        attributes_dict['grades_num'] = self.grades_num
+        return attributes_dict
 
     def add_grade(self, grade):
         if not isinstance(grade, ImGrade):
@@ -112,8 +111,12 @@ class ImMajor:
         self._id = val
 
     @property
-    def teacher_num(self):
-        return self._teacher_num
+    def teachers_num(self):
+        return self._teachers_num
+
+    @property
+    def teachers_name(self):
+        return self._teachers_name
 
     @property
     def teachers(self):
@@ -126,8 +129,12 @@ class ImMajor:
         self._teachers = teachers
 
     @property
-    def grade_num(self):
-        return self._grade_num
+    def students_num(self):
+        return self._students_num
+
+    @property
+    def grades_num(self):
+        return self._grades_num
 
     @property
     def grades(self):
