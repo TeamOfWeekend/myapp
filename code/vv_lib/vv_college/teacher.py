@@ -57,6 +57,36 @@ class ImTeacher(Person):
     def __str__(self):
         return self.name
 
+    def to_dict(self):
+        """
+        将属性放置在字典中
+        :return:
+        """
+        attributes = {}
+        attributes['name'] = self.name
+        attributes['sex'] = self.sex
+        attributes['title'] = self.title
+        attributes['position'] = self.position
+        attributes['curricula'] = self.curricula
+        return attributes
+
+    def from_dict(self, attributes):
+        """
+        从字典中取值，填充实例属性
+        :param attributes:
+        :return:
+        """
+        attributes_num = 5
+        if not isinstance(attributes, dict):
+            raise TypeError('attributes')
+        if attributes_num != len(attributes):
+            raise ValueError('attributes number error')
+        self.name = attributes['name']
+        self.sex = attributes['sex']
+        self.title = attributes['title']
+        self.position = attributes['position']
+        self.curricula = attributes['curricula']
+
     def add_curriculum(self, curriculum):
         if not isinstance(curriculum, str):
             raise TypeError('curriculum')

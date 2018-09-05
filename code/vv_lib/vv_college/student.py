@@ -77,6 +77,32 @@ class ImStudent(person.Person):
         attributes['married'] = self.married
         return attributes
 
+    def from_dict(self, attributes):
+        """
+        从字典中取值，填充实例属性
+        :param attributes:
+        :return:
+        """
+        attributes_num = 14
+        if not isinstance(attributes, dict):
+            raise TypeError('attributes')
+        if attributes_num != len(attributes):
+            raise ValueError('attributes number error')
+        self.id = attributes['id']
+        self.name = attributes['name']
+        self.name_pinyin = attributes['name_pinyin']
+        self.sex = attributes['sex']
+        self.age = attributes['age']
+        self.year_in_college = attributes['year_in_college']
+        self.height = attributes['height']
+        self.weight = attributes['weight']
+        self.id_number = attributes['id_number']
+        self.hobbies = attributes['hobbies']
+        self.bust = attributes['bust']
+        self.waist = attributes['waist']
+        self.hips = attributes['hips']
+        self.married = attributes['married']
+
     def get_random_name(self):
         """随机获取一个名字"""
         self.name = baijiaxing.get_random_name()
