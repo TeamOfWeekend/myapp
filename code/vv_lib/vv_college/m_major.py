@@ -9,9 +9,9 @@
 """
 
 
-from vv_lib.vv_college.grade import ImGrade
-from vv_lib.vv_college.academy import ImAcademy
-from vv_lib.vv_college.teacher import ImTeacher
+from . import m_grade
+from . import m_academy
+from . import m_teacher
 
 
 class ImMajor:
@@ -58,7 +58,7 @@ class ImMajor:
         self.grades_num = attributes['grades_num']
 
     def add_grade(self, grade):
-        if not isinstance(grade, ImGrade):
+        if not isinstance(grade, m_grade.ImGrade):
             raise TypeError('grade')
         if grade.id not in self.grades.keys():
             self.grades[grade.id] = grade
@@ -83,7 +83,7 @@ class ImMajor:
             return None
 
     def add_teacher(self, teacher):
-        if not isinstance(teacher, ImTeacher):
+        if not isinstance(teacher, m_teacher.ImTeacher):
             raise TypeError('teacher')
         if teacher.name not in self.teachers.keys():
             self.teachers[teacher.name] = teacher
@@ -187,6 +187,6 @@ class ImMajor:
 
     @academy.setter
     def academy(self, academy):
-        if not isinstance(academy, ImAcademy):
+        if not isinstance(academy, m_academy.ImAcademy):
             raise TypeError('academy')
         self._academy = academy

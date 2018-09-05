@@ -8,8 +8,8 @@
 @Time    : 2018/7/24 22:29
 """
 
-from vv_lib.vv_college.major import ImMajor
-from vv_lib.vv_college.college import ImCollege
+from . import m_major
+from . import m_college
 
 
 class ImAcademy:
@@ -56,7 +56,7 @@ class ImAcademy:
         self.majors_name = attributes['majors_name']
 
     def add_major(self, major):
-        if not isinstance(major, ImMajor):
+        if not isinstance(major, m_major.ImMajor):
             raise TypeError('major')
         if major.name not in self.majors.keys():
             self.majors[major.name] = major
@@ -154,6 +154,6 @@ class ImAcademy:
 
     @college.setter
     def college(self, college):
-        if not isinstance(college, ImCollege):
+        if not isinstance(college, m_college.ImCollege):
             raise TypeError('college')
         self._college = college

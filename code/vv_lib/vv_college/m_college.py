@@ -10,8 +10,8 @@
 from enum import Enum, unique
 # import random
 
-from vv_lib.vv_college.academy import ImAcademy
-from vv_lib.vv_college.teacher import ImTeacher
+from . import m_academy
+from . import m_teacher
 
 
 @unique
@@ -92,7 +92,7 @@ class ImCollege:
         :param academy: ImAcademy实例对象
         :return:
         """
-        if not isinstance(academy, ImAcademy):
+        if not isinstance(academy, m_academy.ImAcademy):
             raise TypeError('academy')
         if (academy.name in self.academies.keys()) or (academy.name in self._academies_name):
             raise ValueError('academy exists, add failed')
@@ -203,7 +203,7 @@ class ImCollege:
 
     @headmaster.setter
     def headmaster(self, headmaster):
-        if not isinstance(headmaster, ImTeacher):
+        if not isinstance(headmaster, m_teacher.ImTeacher):
             raise TypeError('headmaster')
         self._headmaster = headmaster
 

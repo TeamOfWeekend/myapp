@@ -8,17 +8,12 @@
 @Time    : 2018/8/30 22:26
 """
 
-from vv_lib.vv_college.college import ImCollege
-from vv_lib.vv_college.academy import ImAcademy
-from vv_lib.vv_college.major import ImMajor
-from vv_lib.vv_college.grade import ImGrade
-from vv_lib.vv_college.cclass import ImClass
-from vv_lib.vv_college.student import ImStudent
-from vv_lib.vv_college.types import CollegeInformation
-
-
-gColleges_info = CollegeInformation()   # 大学信息
-gColleges = []                          # 大学对象，根据大学信息创建
+from vv_lib.vv_college.m_college import ImCollege
+from vv_lib.vv_college.m_academy import ImAcademy
+from vv_lib.vv_college.m_major import ImMajor
+from vv_lib.vv_college.m_grade import ImGrade
+from vv_lib.vv_college.m_class import ImClass
+from vv_lib.vv_college.m_student import ImStudent
 
 
 def add_college(colleges, college):

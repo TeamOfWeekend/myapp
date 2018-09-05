@@ -10,21 +10,20 @@
 
 import socket, platform
 
-from vv_lib.vv_ipc_msg.ipc_msg import IpcMsg
 from myprocess.college.ipc_api import handle_ipc_msg
 
 
 def thread_socket_receive(my_global):
     print('Thread college socket receive start..')
-    ossys = platform.system()
+    os_sys = platform.system()
 
     # college 作为服务器，实现本机进程间通信，为django提供数据
-    if 'Windows' == ossys:
+    if 'Windows' == os_sys:
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         host = socket.gethostname()
         port = 8003
         server.bind((host, port))
-    elif 'Linux' == ossys:
+    elif 'Linux' == os_sys:
         server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     else:
         raise OSError('Other operate system')

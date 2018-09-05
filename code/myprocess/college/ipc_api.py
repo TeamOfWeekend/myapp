@@ -9,7 +9,7 @@
 """
 
 from vv_lib.vv_ipc_msg.ipc_msg import MSG_Type, IPC_Opcode, IpcMsg
-from myprocess.college.data_api import get_college, get_academy, get_major, get_grade, get_classs, get_student
+from .data_api import get_college, get_academy, get_major, get_grade, get_classs, get_student
 
 
 def handle_ipc_msg(server, data, colleges):

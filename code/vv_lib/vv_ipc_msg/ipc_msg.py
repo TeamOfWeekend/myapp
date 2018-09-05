@@ -255,9 +255,9 @@ class IpcMsg:
         self.data_num = len(self.data)
 
 
-msg = IpcMsg()
-# list(msg)
-print(msg.tolist())
-
-a = {1:11, 2:22, 3:33}
-print(len(a))
+# msg = IpcMsg()
+# # list(msg)
+# print(msg.to_list())
+#
+# a = {1:11, 2:22, 3:33}
+# print(len(a))

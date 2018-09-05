@@ -8,6 +8,9 @@
 @Time    : 2018/8/20 21:54
 """
 
+import platform
+import os
+import sys
 
 from vv_lib.vv_process.vprocess import VProcess
 
@@ -20,6 +23,21 @@ from common.myglobal import MyGlobal
 process_def = ((1, 'college process', run_college),
                (2, 'student process', run_student))
 
+
+# find current path  os what system we're on
+if "Windows" == platform.system():
+    sys.path.append(os.path.abspath('.') + "\\vv_lib\\vv_college")
+    sys.path.append(os.path.abspath('.') + "\\vv_lib\\vv_ipc_msg")
+    sys.path.append(os.path.abspath('.') + "\\vv_lib\\vv_person")
+    sys.path.append(os.path.abspath('.') + "\\vv_lib\\vv_process")
+    sys.path.append(os.path.abspath('.') + "\\vv_lib\\vv_queue")
+else:
+    sys.path.append(os.path.abspath('.') + "/libs")
+    sys.path.append(os.path.abspath('.') + "/vv_lib/vv_college")
+    sys.path.append(os.path.abspath('.') + "/vv_lib/vv_ipc_msg")
+    sys.path.append(os.path.abspath('.') + "/vv_lib/vv_person")
+    sys.path.append(os.path.abspath('.') + "/vv_lib/vv_process")
+    sys.path.append(os.path.abspath('.') + "/vv_lib/vv_queue")
 
 if __name__ == "__main__":
     process_list = []

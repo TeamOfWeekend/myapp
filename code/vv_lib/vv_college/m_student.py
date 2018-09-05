@@ -15,7 +15,7 @@ from pypinyin import pinyin, NORMAL
 from enum import Enum, unique
 
 from vv_lib.vv_person import baijiaxing, person, enumTypes
-from vv_lib.vv_college.cclass import ImClass
+from . import m_class
 
 
 @unique
@@ -215,7 +215,7 @@ class ImStudent(person.Person):
 
     @cclass.setter
     def cclass(self, cclass):
-        if not isinstance(cclass, ImClass):
+        if not isinstance(cclass, m_class.ImClass):
             raise TypeError('cclass')
         self._cclass = cclass
 

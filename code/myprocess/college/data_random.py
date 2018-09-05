@@ -12,14 +12,14 @@
 import random
 
 from vv_lib.vv_person.baijiaxing import get_random_name
-from vv_lib.vv_college.types import CollegeInformation
-from vv_lib.vv_college.college import ImCollege
-from vv_lib.vv_college.academy import ImAcademy
-from vv_lib.vv_college.major import ImMajor
-from vv_lib.vv_college.grade import ImGrade
-from vv_lib.vv_college.cclass import ImClass
-from vv_lib.vv_college.student import ImStudent
-from vv_lib.vv_college.teacher import ImTeacher
+from vv_lib.vv_college.m_types import CollegeInformation
+from vv_lib.vv_college.m_college import ImCollege
+from vv_lib.vv_college.m_academy import ImAcademy
+from vv_lib.vv_college.m_major import ImMajor
+from vv_lib.vv_college.m_grade import ImGrade
+from vv_lib.vv_college.m_class import ImClass
+from vv_lib.vv_college.m_student import ImStudent
+from vv_lib.vv_college.m_teacher import ImTeacher
 
 
 COLLEGES_NAME = ['清华大学', '北京大学', '中国人民大学', '北京航空航天大学', '郑州大学']
@@ -82,24 +82,29 @@ def create_random_colleges(gColleges_info, gColleges):
     for college_name, college_info in gColleges_info.information.items():
         college = ImCollege()
         college.name = college_name
+        print('college name : %s' % college.name)
         gColleges.append(ImCollege())
         for academy_name, academy_info in college_info.items():
             academy = ImAcademy()
             academy.name = academy_name
+            academy.college = college
             college.add_academy(academy)
             for major_name, major_info in academy_info.items():
                 major = ImMajor()
                 major.name = major_name
                 major.teachers = get_random_teachers()
+                major.academy = academy
                 academy.add_major(major)
                 for grade_id, grade_info in major_info.items():
                     grade = ImGrade()
-                    grade.id = grade
+                    grade.id = grade.id
+                    grade.major = major
                     major.add_grade(grade)
                     for class_id in grade_info:
                         cclass = ImClass()
                         cclass.id = class_id
-                        cclass.students = get_random_students()
+                        cclass.students = get_random_students(cclass)
+                        cclass.grade = grade
                         cclass.update_student_id()
                         grade.add_class(cclass)
 
@@ -114,22 +119,23 @@ def get_random_teachers():
     return teachers
 
 
-def get_random_students():
+def get_random_students(cclass):
     rand_int = random.randint(STUDENTS_PER_CLASS_MIN, STUDENTS_PER_CLASS_MAX)
-    students = {}
+    students = []
     for i in range(0, rand_int):
         student = ImStudent()
         student.name = get_random_name()
         student.id = i + 1
-        students[student.name] = student
+        student.cclass = cclass
+        students.append(student)
     return students
 
 
-colleges_info = CollegeInformation()
-create_random_college_info(colleges_info)
-print(colleges_info.information)
-
-colleges = []
-create_random_colleges(colleges, colleges_info)
-for college in colleges:
-    print(college.name)
+# colleges_info = CollegeInformation()
+# create_random_college_info(colleges_info)
+# print(colleges_info.information)
+#
+# colleges = []
+# create_random_colleges(colleges_info, colleges)
+# for college in colleges:
+#     print(college.name)
