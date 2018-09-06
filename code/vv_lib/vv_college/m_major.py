@@ -62,11 +62,16 @@ class ImMajor:
             raise TypeError('grade')
         if grade.id not in self.grades.keys():
             self.grades[grade.id] = grade
+            self.grades_num += 1
+            self.students_num += grade.students_num
 
     def del_grade(self, grade_id):
         if not isinstance(grade_id, int):
             raise TypeError('grade_id')
         if grade_id in self.grades.keys():
+            grade = self.grades[grade_id]
+            self.grades_num -= 1
+            self.students_num -= grade.students_num
             del self.grades[grade_id]
 
     def get_grade(self, grade_id):
@@ -87,11 +92,17 @@ class ImMajor:
             raise TypeError('teacher')
         if teacher.name not in self.teachers.keys():
             self.teachers[teacher.name] = teacher
+            self.teachers_num += 1
+            self.academy.teachers_num += 1
+            self.academy.college.teachers_num += 1
 
     def del_teacher(self, teacher_name):
         if not isinstance(teacher_name, str):
             raise TypeError('teacher_name')
         if teacher_name in self.teachers.keys():
+            self.teachers_num -= 1
+            self.academy.teachers_num -= 1
+            self.academy.college.teachers_num -= 1
             del self.teachers[teacher_name]
 
     def get_teacher(self, teacher_name):
@@ -161,9 +172,21 @@ class ImMajor:
     def students_num(self):
         return self._students_num
 
+    @students_num.setter
+    def students_num(self, students_num):
+        if not isinstance(students_num, int):
+            raise TypeError('students_num')
+        self._students_num = students_num
+
     @property
     def grades_num(self):
         return self._grades_num
+
+    @grades_num.setter
+    def grades_num(self, grades_num):
+        if not isinstance(grades_num, int):
+            raise TypeError('grades_num')
+        self._grades_num = grades_num
 
     @grades_num.setter
     def grades_num(self, grades_num):

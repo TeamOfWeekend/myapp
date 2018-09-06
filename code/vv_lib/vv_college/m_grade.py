@@ -54,13 +54,22 @@ class ImGrade:
         if classs.id not in self.classes.keys():
             self.classes[classs.id] = classs
             self.classes_num += 1
+            self.students_num += classs.students_num
+            self.major.students_num += classs.students_num
+            self.major.academy.students_num += classs.students_num
+            self.major.academy.college.students_num += classs.students_num
 
     def del_class(self, class_id):
         if not isinstance(class_id, int):
             raise TypeError('class_id')
         if class_id not in self.classes.keys():
-            del self.classes[class_id]
+            classs = self.classes[class_id]
             self.classes_num -= 1
+            self.students_num -= classs.students_num
+            self.major.students_num -= classs.students_num
+            self.major.academy.students_num -= classs.students_num
+            self.major.academy.college.students_num -= classs.students_num
+            del self.classes[class_id]
 
     def get_class(self, class_id):
         """

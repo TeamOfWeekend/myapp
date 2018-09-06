@@ -22,12 +22,14 @@ class ModuleId(Enum):
 
 @unique
 class MSG_Type(Enum):
-    College = 1
-    Academy = 2
-    Major = 3
-    Grade = 4
-    Classs = 5
-    Student = 6
+    All_Colleges = 1
+    College = 2
+    Academy = 3
+    Major = 4
+    Grade = 5
+    Classs = 6
+    Student = 7
+    Teacher = 8
 
 
 @unique

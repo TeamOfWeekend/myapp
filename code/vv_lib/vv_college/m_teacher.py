@@ -10,7 +10,7 @@
 """
 from enum import Enum, unique
 
-from vv_lib.vv_person.person import Person
+from ..vv_person.person import Person
 from . import m_major
 
 

@@ -14,7 +14,7 @@ import datetime
 from pypinyin import pinyin, NORMAL
 from enum import Enum, unique
 
-from vv_lib.vv_person import baijiaxing, person, enumTypes
+from ..vv_person import baijiaxing, person, enumTypes
 from . import m_class
 
 

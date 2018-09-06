@@ -83,6 +83,10 @@ class ImClass:
         if not isinstance(student, m_student.ImStudent):
             raise TypeError('student')
         self.students_num += 1
+        self.grade.students_num += 1
+        self.grade.major.students_num += 1
+        self.grade.major.academy.students_num += 1
+        self.grade.major.academy.college.students_num += 1
         student.id = self.students_num
         self.students.append(student)
 
@@ -92,6 +96,10 @@ class ImClass:
         for student in self.students:
             if student_id == student.id:
                 self.students_num -= 1
+                self.grade.students_num -= 1
+                self.grade.major.students_num -= 1
+                self.grade.major.academy.students_num -= 1
+                self.grade.major.academy.college.students_num -= 1
                 self.students.remove(student)
 
     def get_student(self, student_id):

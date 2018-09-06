@@ -23,7 +23,11 @@ def handle_ipc_msg(server, data, colleges):
     ipc_msg = IpcMsg()
     ipc_msg.fill_all(eval(data.decode()))
 
-    if MSG_Type.College == ipc_msg.msg_type:
+    print('recv socket msg : ', ipc_msg.msg_type)
+
+    if MSG_Type.All_Colleges == ipc_msg.msg_type:
+        handle_ipc_msg_all_colleges(server, colleges, ipc_msg)
+    elif MSG_Type.College == ipc_msg.msg_type:
         handle_ipc_msg_college(server, colleges, ipc_msg)
     elif MSG_Type.Academy == ipc_msg.msg_type:
         handle_ipc_msg_academy(server, colleges, ipc_msg)
@@ -37,6 +41,21 @@ def handle_ipc_msg(server, data, colleges):
         handle_ipc_msg_student(server, colleges, ipc_msg)
 
 
+def handle_ipc_msg_all_colleges(server, colleges, ipc_msg):
+    """
+    处理college类型的ipc消息
+    :param server:
+    :param colleges:
+    :return:
+    """
+    if IPC_Opcode.Get == ipc_msg.opcode:
+        if 0 == colleges.colleges_num:
+            send_ipc_no_reply(server, ipc_msg)
+        else:
+            data = colleges.to_dict()
+            send_ipc_reply(server, ipc_msg, data)
+
+
 def handle_ipc_msg_college(server, colleges, ipc_msg):
     """
     处理college类型的ipc消息
@@ -46,7 +65,7 @@ def handle_ipc_msg_college(server, colleges, ipc_msg):
     """
     if IPC_Opcode.Get == ipc_msg.opcode:
         college_name = ipc_msg.data['college_name']
-        college = get_college(colleges, college_name)
+        college = colleges.get_college(college_name)
         if college is None:
             send_ipc_no_reply(server, ipc_msg)
         else:
@@ -63,7 +82,7 @@ def handle_ipc_msg_academy(server, colleges, ipc_msg):
     """
     college_name = ipc_msg.data['college_name']
     academy_name = ipc_msg.data['academy_name']
-    academy = get_academy(colleges, college_name, academy_name)
+    academy = colleges.get_academy(college_name, academy_name)
     if academy is None:
         send_ipc_no_reply(server, ipc_msg)
     else:
@@ -81,7 +100,7 @@ def handle_ipc_msg_major(server, colleges, ipc_msg):
     college_name = ipc_msg.data['college_name']
     academy_name = ipc_msg.data['academy_name']
     major_name = ipc_msg.data['major_name']
-    major = get_major(colleges, college_name, academy_name, major_name)
+    major = colleges.get_major(college_name, academy_name, major_name)
     if major is None:
         send_ipc_no_reply(server, ipc_msg)
     else:
@@ -100,7 +119,7 @@ def handle_ipc_msg_grade(server, colleges, ipc_msg):
     academy_name = ipc_msg.data['academy_name']
     major_name = ipc_msg.data['major_name']
     grade_id = ipc_msg.data['grade_id']
-    grade = get_grade(colleges, college_name, academy_name, major_name, grade_id)
+    grade = colleges.get_grade(college_name, academy_name, major_name, grade_id)
     if grade is None:
         send_ipc_no_reply(server, ipc_msg)
     else:
@@ -120,7 +139,7 @@ def handle_ipc_msg_classs(server, colleges, ipc_msg):
     major_name = ipc_msg.data['major_name']
     grade_id = ipc_msg.data['grade_id']
     class_id = ipc_msg.data['class_id']
-    cclass = get_classs(colleges, college_name, academy_name, major_name, grade_id, class_id)
+    cclass = colleges.get_classs(college_name, academy_name, major_name, grade_id, class_id)
     if cclass is None:
         send_ipc_no_reply(server, ipc_msg)
     else:
@@ -141,7 +160,7 @@ def handle_ipc_msg_student(server, colleges, ipc_msg):
     grade_id = ipc_msg.data['grade_id']
     class_id = ipc_msg.data['class_id']
     student_id = ipc_msg.data['student_id']
-    student = get_student(colleges, college_name, academy_name, major_name, grade_id, class_id, student_id)
+    student = colleges.get_student(college_name, academy_name, major_name, grade_id, class_id, student_id)
     if student is None:
         send_ipc_no_reply(server, ipc_msg)
     else:

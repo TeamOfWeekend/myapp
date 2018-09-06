@@ -13,6 +13,7 @@ import random
 
 from vv_lib.vv_person.baijiaxing import get_random_name
 from vv_lib.vv_college.m_types import CollegeInformation
+from vv_lib.vv_college.m_colleges import ImColleges
 from vv_lib.vv_college.m_college import ImCollege
 from vv_lib.vv_college.m_academy import ImAcademy
 from vv_lib.vv_college.m_major import ImMajor
@@ -75,7 +76,7 @@ def create_random_colleges(gColleges_info, gColleges):
     :param gColleges_info:
     :return:
     """
-    if not isinstance(gColleges, list):
+    if not isinstance(gColleges, ImColleges):
         raise TypeError('gColleges')
     if not isinstance(gColleges_info, CollegeInformation):
         raise TypeError('gColleges_info')
@@ -83,7 +84,7 @@ def create_random_colleges(gColleges_info, gColleges):
         college = ImCollege()
         college.name = college_name
         print('college name : %s' % college.name)
-        gColleges.append(ImCollege())
+        gColleges.add_college(college)
         for academy_name, academy_info in college_info.items():
             academy = ImAcademy()
             academy.name = academy_name
@@ -135,7 +136,8 @@ def get_random_students(cclass):
 # create_random_college_info(colleges_info)
 # print(colleges_info.information)
 #
-# colleges = []
-# create_random_colleges(colleges_info, colleges)
-# for college in colleges:
-#     print(college.name)
+# g_Colleges = ImColleges()
+# create_random_colleges(colleges_info, g_Colleges)
+# print(g_Colleges.colleges)
+# for college_name in g_Colleges.colleges_name:
+#     print(college_name)
