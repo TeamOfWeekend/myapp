@@ -93,30 +93,35 @@ def create_random_colleges(gColleges_info, gColleges):
             for major_name, major_info in academy_info.items():
                 major = ImMajor()
                 major.name = major_name
-                major.teachers = get_random_teachers()
                 major.academy = academy
+                teachers = get_random_teachers()
+                for teacher in teachers:
+                    major.add_teacher(teacher)
                 academy.add_major(major)
                 for grade_id, grade_info in major_info.items():
                     grade = ImGrade()
-                    grade.id = grade.id
+                    grade.id = grade_id
                     grade.major = major
                     major.add_grade(grade)
                     for class_id in grade_info:
                         cclass = ImClass()
                         cclass.id = class_id
-                        cclass.students = get_random_students(cclass)
                         cclass.grade = grade
+                        students = get_random_students(cclass)
+                        for student in students:
+                            cclass.add_student(student)
+
                         cclass.update_student_id()
                         grade.add_class(cclass)
 
 
 def get_random_teachers():
     rand_int = random.randint(TEACHERS_PET_MAJOR_MIN, TEACHERS_PET_MAJOR_MAX)
-    teachers = {}
+    teachers = []
     for i in range(0, rand_int):
         teacher = ImTeacher()
         teacher.name = get_random_name()
-        teachers[teacher.name] = teacher
+        teachers.append(teacher)
     return teachers
 
 

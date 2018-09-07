@@ -57,7 +57,7 @@ class ImCollege:
         attributes['address'] = self.address
         attributes['level'] = self.level.value
         attributes['area'] = self.area
-        attributes['headmaster'] = self.headmaster.name
+        attributes['headmaster_name'] = self.headmaster.name
         attributes['academies_num'] = self.academies_num
         attributes['majors_num'] = self.majors_num
         attributes['students_num'] = self.students_num
@@ -82,7 +82,7 @@ class ImCollege:
         self.address = attributes['address']
         self.level = CollegeLevel(attributes['level'])
         self.area = attributes['area']
-        self.headmaster.name = attributes['headmaster']
+        self.headmaster.name = attributes['headmaster_name']
         self.academies_num = attributes['academies_num']
         self.academies_name = attributes['academies_name']
         self.majors_num = attributes['majors_num']
@@ -99,6 +99,7 @@ class ImCollege:
             raise TypeError('academy')
         if (academy.name in self.academies.keys()) or (academy.name in self._academies_name):
             raise ValueError('academy exists, add failed')
+        academy.college = self
         self.academies_num += 1
         self.academies_name.append(academy.name)
         self.academies[academy.name] = academy

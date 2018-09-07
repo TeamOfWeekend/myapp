@@ -10,9 +10,6 @@
 
 from enum import Enum, unique
 
-MSG_TYPE = ()
-
-
 @unique
 class ModuleId(Enum):
     Django = 1
@@ -258,8 +255,12 @@ class IpcMsg:
 
 
 # msg = IpcMsg()
+# msg.data = {1:1}
 # # list(msg)
-# print(msg.to_list())
+# print(msg.data)
+# # print(msg.to_list())
 #
+# b = {}
 # a = {1:11, 2:22, 3:33}
-# print(len(a))
+# b = a
+# print(b)

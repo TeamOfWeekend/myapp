@@ -120,10 +120,12 @@ def handle_ipc_msg_grade(server, colleges, ipc_msg):
     major_name = ipc_msg.data['major_name']
     grade_id = ipc_msg.data['grade_id']
     grade = colleges.get_grade(college_name, academy_name, major_name, grade_id)
+    print(grade_id, grade, type(grade))
     if grade is None:
         send_ipc_no_reply(server, ipc_msg)
     else:
         data = grade.to_dict()
+        print(data)
         send_ipc_reply(server, ipc_msg, data)
 
 
