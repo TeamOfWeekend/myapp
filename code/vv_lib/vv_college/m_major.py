@@ -142,8 +142,8 @@ class ImMajor:
 
     @id.setter
     def id(self, val):
-        if not isinstance(val, str):
-            raise TypeError('name')
+        if not isinstance(val, int):
+            raise TypeError('id')
         self._id = val
 
     @property
