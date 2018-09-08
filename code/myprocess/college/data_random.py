@@ -102,7 +102,6 @@ def create_random_colleges(gColleges_info, gColleges):
                     grade = ImGrade()
                     grade.id = grade_id
                     grade.major = major
-                    major.add_grade(grade)
                     for class_id in grade_info:
                         cclass = ImClass()
                         cclass.id = class_id
@@ -113,6 +112,7 @@ def create_random_colleges(gColleges_info, gColleges):
 
                         cclass.update_student_id()
                         grade.add_class(cclass)
+                    major.add_grade(grade)
 
 
 def get_random_teachers():
