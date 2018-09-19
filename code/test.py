@@ -11,7 +11,8 @@
 
 
 from enum import Enum, unique
-
+import numpy as np
+import pandas as pd
 
 @unique
 class TLV_TAG(Enum):
@@ -74,5 +75,22 @@ def list_all(test):
 
 
 
-test = Test()
-list_all(test)
+# test = Test()
+# list_all(test)
+
+def f(string):
+    if not isinstance(string, str):
+        raise TypeError
+    print(string)
+
+# try:
+#     f(100)
+# except:
+#     f('haha')
+# else:
+#     f('else')
+# finally:
+#     f('finally')
+
+frame = pd.DataFrame(np.arange(100).reshape(10,10))
+print(frame)
