@@ -8,6 +8,7 @@
 @Time    : 2018/8/30 22:28
 """
 
+import json
 from vv_lib.vv_ipc_msg.ipc_msg import MSG_Type, IPC_Opcode, IpcMsg
 from .data_api import get_college, get_academy, get_major, get_grade, get_classs, get_student
 
@@ -21,7 +22,8 @@ def handle_ipc_msg(server, data, colleges):
     :return:
     """
     ipc_msg = IpcMsg()
-    ipc_msg.fill_all(eval(data.decode()))
+    # ipc_msg.fill_all(eval(data.decode()))
+    ipc_msg.fill_all(json.loads(data.decode()))
 
     print('recv socket msg : ', ipc_msg.msg_type)
 
@@ -185,7 +187,8 @@ def send_ipc_reply(server, ipc_msg_rcv, data):
     ipc_msg_send.msg_subtype = ipc_msg_rcv.msg_subtype
     ipc_msg_send.opcode = IPC_Opcode.Reply
     ipc_msg_send.data = data
-    server.sendall(repr(ipc_msg_send.to_list()).encode())
+    # server.sendall(repr(ipc_msg_send.to_list()).encode())
+    server.sendall(json.dumps(ipc_msg_send.to_list()).encode())
 
 
 def send_ipc_no_reply(server, ipc_msg_rcv):
@@ -201,4 +204,5 @@ def send_ipc_no_reply(server, ipc_msg_rcv):
     ipc_msg_send.msg_type = ipc_msg_rcv.msg_type
     ipc_msg_send.msg_subtype = ipc_msg_rcv.msg_subtype
     ipc_msg_send.opcode = IPC_Opcode.NoReply
-    server.sendall(repr(ipc_msg_send.to_list()).encode())
+    # server.sendall(repr(ipc_msg_send.to_list()).encode())
+    server.sendall(json.dumps(ipc_msg_send.to_list()).encode())
