@@ -10,6 +10,8 @@
 """
 
 import random
+import pandas as pd
+
 
 from vv_lib.vv_person.baijiaxing import get_random_name
 from vv_lib.vv_college.m_types import CollegeInformation
@@ -45,6 +47,7 @@ STUDENTS_PER_CLASS_MIN = 5
 # 每个专业教师数量的最大值和最小值
 TEACHERS_PET_MAJOR_MAX = 50
 TEACHERS_PET_MAJOR_MIN = 20
+
 
 
 def create_random_college_info(gColleges_info):

@@ -9,6 +9,8 @@
 @Software: PyCharm Community Edition
 """
 
+import pandas as pd
+
 
 class CollegeInformation:
     """
@@ -16,12 +18,11 @@ class CollegeInformation:
     每个专业包含的年级、每个年级包含的班级
     """
     def __init__(self):
-        self._information = {}
+        self._information = pd.DataFrame(columns=['name', 'id', 'description', 'birthday', 'address',
+                                                  'level', 'area', 'headmaster', 'academy_num',
+                                                  'major_num', 'grade_num', 'class_num',
+                                                  'teacher_num', 'student_num'])
         self._college_num = 0
-        self._academy_num = 0
-        self._major_num = 0
-        self._grade_num = 0
-        self._class_num = 0
 
     def add_college_info(self, college_name):
         """
