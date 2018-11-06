@@ -38,6 +38,7 @@ class ImCollege:
         self._level = CollegeLevel.未知             # 学校级别
         self._area = 0                              # 校园面积
         self._headmaster = m_teacher.ImTeacher()    # 校长
+        self._birthday = ''                         # 学院数量
         self._academies_num = 0                     # 学院数量
         self._academies_name = []                   # 学院名称列表
         self._academies = {}                        # 学院信息字典，key为学院名，value为学院对象
@@ -58,6 +59,7 @@ class ImCollege:
         attributes['level'] = self.level.value
         attributes['area'] = self.area
         attributes['headmaster_name'] = self.headmaster.name
+        attributes['birthday'] = self.birthday
         attributes['academies_num'] = self.academies_num
         attributes['majors_num'] = self.majors_num
         attributes['students_num'] = self.students_num
@@ -71,7 +73,7 @@ class ImCollege:
         :param attributes:
         :return:
         """
-        attributes_num = 12
+        attributes_num = 13
         if not isinstance(attributes, dict):
             raise TypeError('attributes')
         if attributes_num != len(attributes):
@@ -83,6 +85,7 @@ class ImCollege:
         self.level = CollegeLevel(attributes['level'])
         self.area = attributes['area']
         self.headmaster.name = attributes['headmaster_name']
+        self.birthday = attributes['birthday']
         self.academies_num = attributes['academies_num']
         self.academies_name = attributes['academies_name']
         self.majors_num = attributes['majors_num']
@@ -217,6 +220,16 @@ class ImCollege:
         if not isinstance(headmaster, m_teacher.ImTeacher):
             raise TypeError('headmaster')
         self._headmaster = headmaster
+
+    @property
+    def birthday(self):
+        return self._birthday
+
+    @birthday.setter
+    def birthday(self, date):
+        if not isinstance(date, str):
+            raise TypeError('date')
+        self._birthday = date
 
     @property
     def academies_num(self):

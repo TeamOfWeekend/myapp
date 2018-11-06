@@ -62,9 +62,9 @@ class ImGrade:
             self.classes[classs.id] = classs
             self.classes_num += 1
             self.students_num += classs.students_num
-            self.major.students_num += classs.students_num
-            self.major.academy.students_num += classs.students_num
-            self.major.academy.college.students_num += classs.students_num
+            # self.major.students_num += classs.students_num
+            # self.major.academy.students_num += classs.students_num
+            # self.major.academy.college.students_num += classs.students_num
 
     def del_class(self, class_id):
         if not isinstance(class_id, int):

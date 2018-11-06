@@ -15,11 +15,11 @@ from myprocess.college.data_random import create_random_college_info, create_ran
 def thread_data_update(my_global):
     print('Thread college data update start..')
 
-    gColleges_info = my_global.paras['gColleges_info']
+    # gColleges_info = my_global.paras['gColleges_info']
     gColleges = my_global.paras['gColleges']
 
-    create_random_college_info(gColleges_info)
-    create_random_colleges(gColleges_info, gColleges)
+    # create_random_college_info(gColleges_info)
+    create_random_colleges(gColleges)
 
     time.sleep(3)
     print('Thread college data update stop..')

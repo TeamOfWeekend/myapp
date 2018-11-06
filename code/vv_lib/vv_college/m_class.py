@@ -93,10 +93,10 @@ class ImClass:
             raise TypeError('student')
         student.cclass = self
         self.students_num += 1
-        self.grade.students_num += 1
-        self.grade.major.students_num += 1
-        self.grade.major.academy.students_num += 1
-        self.grade.major.academy.college.students_num += 1
+        # self.grade.students_num += 1
+        # self.grade.major.students_num += 1
+        # self.grade.major.academy.students_num += 1
+        # self.grade.major.academy.college.students_num += 1
         student.id = self.students_num
         self.students.append(student)
 
